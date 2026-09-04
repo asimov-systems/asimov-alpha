@@ -67,6 +67,14 @@ function findFile(files: ArchiveFiles, expectedBasename: string): Uint8Array {
   return matches[0][1];
 }
 
+function findReadme(files: ArchiveFiles): Uint8Array | undefined {
+  const matches = [...files].filter(([path]) => basename(path).toUpperCase().startsWith("README"));
+  if (matches.length > 1) {
+    throw new Error(`expected at most one README in archive, found ${matches.length}`);
+  }
+  return matches[0]?.[1];
+}
+
 async function request(
   url: string,
   authenticated = false,
@@ -363,6 +371,14 @@ async function main(): Promise<void> {
         data: module.manifest,
         mode: 0o100644,
       });
+      const readme = findReadme(module.files);
+      if (readme) {
+        entries.push({
+          path: `${top}asimov/modules/installed/${module.name}/doc/README.md`,
+          data: readme,
+          mode: 0o100644,
+        });
+      }
       for (const program of module.programs) {
         entries.push({
           path: `${top}asimov/modules/installed/${module.name}/bin/${program}${executableExtension}`,
