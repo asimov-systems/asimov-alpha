@@ -45,7 +45,7 @@ If that is not found, the installer printed the full path to use instead.
 
 ## What gets installed
 
-```
+```text
 ~/.local/bin/asimov[.exe]          the CLI
 ~/.asimov/
 ├── libexec/                       links to every module program
