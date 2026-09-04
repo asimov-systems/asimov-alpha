@@ -1,0 +1,11 @@
+{
+  "name": "asimov-alpha",
+  "private": true,
+  "scripts": {
+    "bump": "bun scripts/bump-version.ts",
+    "zip": "bun scripts/create-zips.ts"
+  },
+  "dependencies": {
+    "fflate": "0.8.3"
+  }
+}

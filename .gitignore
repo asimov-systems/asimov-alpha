@@ -1,3 +1,6 @@
+# Distribution archives
+dist/
+
 # macOS
 .DS_Store
 
