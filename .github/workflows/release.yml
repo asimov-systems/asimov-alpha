@@ -62,9 +62,11 @@ jobs:
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
       - name: Install packager dependency
+        working-directory: tools
         run: bun install --frozen-lockfile
 
       - name: Create bundles
+        working-directory: tools
         env:
           SANDBOX_RELEASES_TOKEN: ${{ secrets.SANDBOX_RELEASES_TOKEN }}
           CLI_REF: ${{ inputs.cli || 'latest' }}

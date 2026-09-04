@@ -3,7 +3,8 @@ import { basename, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { unzipSync, zipSync, type Zippable } from "fflate";
 
-const root = fileURLToPath(new URL("../", import.meta.url));
+const tools = fileURLToPath(new URL("../", import.meta.url));
+const root = fileURLToPath(new URL("../../", import.meta.url));
 const outputDirectory = join(root, "dist");
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
@@ -252,9 +253,9 @@ async function main(): Promise<void> {
   const [cliRelease, skill, readme, install, uninstall] = await Promise.all([
     resolveRelease("asimov-platform/asimov-cli", options.cli, false),
     resolveSkill(options.skills),
-    Bun.file(join(root, "bundle/README.md")).bytes(),
-    Bun.file(join(root, "bundle/install.sh")).bytes(),
-    Bun.file(join(root, "bundle/uninstall.sh")).bytes(),
+    Bun.file(join(tools, "bundle/README.md")).bytes(),
+    Bun.file(join(tools, "bundle/install.sh")).bytes(),
+    Bun.file(join(tools, "bundle/uninstall.sh")).bytes(),
   ]);
   const modules = await Promise.all(
     [...options.modules].map(async ([name, requested]) => {
