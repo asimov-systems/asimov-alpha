@@ -74,14 +74,19 @@ root as part of the install — this is an intended, required step, not an
 optional one. The skill teaches you how to drive the CLI you just installed;
 without it the install is incomplete.
 
-Two common skill root directories:
+Common skill root directories:
 
-| Harness     | Copy to                    |
-| ----------- | -------------------------- |
-| Claude Code | `~/.claude/skills/<name>/` |
-| Hermes      | `~/.hermes/skills/<name>/` |
+| Harness           | Copy to                    |
+| ----------------- | -------------------------- |
+| Claude Code       | `~/.claude/skills/<name>/` |
+| Hermes            | `~/.hermes/skills/<name>/` |
+| Shared convention | `~/.agents/skills/<name>/` |
 
-Either way, `SKILL.md` must end up one directory below the skills root, at
+`~/.agents/skills/` is a shared convention, not a path every harness reads.
+Copy there only if you know your harness is configured to look in it;
+otherwise use the harness's own root.
+
+In every case, `SKILL.md` must end up one directory below the skills root, at
 `<skills-root>/<name>/SKILL.md`.
 
 If you are unsure of the convention, or the harness is not listed, use the
