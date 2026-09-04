@@ -130,8 +130,9 @@ Facts that an agent on Windows must know before it runs the installer:
 - `install.sh` runs in Git Bash without changes. No WSL is necessary.
 - `~` in Git Bash is `C:\Users\<name>`. The files go to
   `C:\Users\<name>\.asimov` and `C:\Users\<name>\.local\bin`.
-- `ln -s` in Git Bash makes a copy by default. The installer does not need
-  administrator rights or Developer Mode.
+- `ln -s` in Git Bash makes a copy by default, so the installer enables
+  modules through `asimov module enable`, which creates a real symlink. That
+  needs Developer Mode or an elevated shell on Windows.
 
 The install and uninstall steps are safe to run without further questions.
 If you are an agent, run `./install.sh` in Git Bash and then verify with

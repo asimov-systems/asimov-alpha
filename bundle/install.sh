@@ -24,14 +24,11 @@ if [ "$(uname -s)" = Darwin ]; then
   xattr -dr com.apple.quarantine "$ASIMOV_HOME" "$BIN_DIR/asimov$suffix" 2>/dev/null || true
 fi
 
-cli="$("$BIN_DIR/asimov$suffix" --version)"
-echo "installed $cli at $BIN_DIR/asimov$suffix"
-
 for path in "$ASIMOV_HOME"/modules/installed/*/; do
   module="$(basename "$path")"
   case "$present" in
     *" $module "*) ;;
-    *) ln -s "../installed/$module" "$ASIMOV_HOME/modules/enabled/$module" ;;
+    *) ASIMOV_ROOT="$ASIMOV_HOME" "$BIN_DIR/asimov$suffix" module enable "$module" ;;
   esac
   for prog in "$path"bin/*; do
     [ -f "$prog" ] || continue
@@ -39,6 +36,9 @@ for path in "$ASIMOV_HOME"/modules/installed/*/; do
   done
   echo "installed module $module"
 done
+
+cli="$("$BIN_DIR/asimov$suffix" --version)"
+echo "installed $cli at $BIN_DIR/asimov$suffix"
 
 case ":${PATH}:" in
   *":$BIN_DIR:"*) ;;

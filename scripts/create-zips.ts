@@ -295,7 +295,7 @@ async function main(): Promise<void> {
         throw new Error(`expected module ${module.name}, found ${parsedManifest.name}`);
       }
       const programs = parsedManifest.provides?.programs;
-      if (!programs) throw new Error(`${module.name} manifest does not list any programs`);
+      if (!programs?.length) throw new Error(`${module.name} manifest does not list any programs`);
       return { ...module, files, manifest, programs, archive: moduleArchives[index] };
     });
 
