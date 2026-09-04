@@ -49,12 +49,11 @@ jobs:
         run: |
           version="$(tr -d '[:space:]' < VERSION)"
           if [ "$GITHUB_REF_TYPE" = tag ]; then
-            requested="${GITHUB_REF_NAME#v}"
-            tag="$GITHUB_REF_NAME"
+            requested="$GITHUB_REF_NAME"
           else
             requested="$REQUESTED_VERSION"
-            tag="$REQUESTED_VERSION"
           fi
+          tag="$version"
           if [ "$requested" != "$version" ]; then
             echo "VERSION contains $version, but the requested release is $requested" >&2
             exit 1

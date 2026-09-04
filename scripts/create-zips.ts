@@ -156,7 +156,9 @@ async function verifiedReleaseArchive(
   return { data, sha256: actual };
 }
 
-async function resolveSkill(requested: string): Promise<{ commit: string; skill: Uint8Array }> {
+async function resolveSkill(
+  requested: string,
+): Promise<{ commit: string; skill: Map<string, Uint8Array> }> {
   const reference = requested === "latest" ? "HEAD" : requested;
   const response = await request(
     `https://api.github.com/repos/asimov-platform/skills/commits/${encodeURIComponent(reference)}`,
@@ -171,10 +173,17 @@ async function resolveSkill(requested: string): Promise<{ commit: string; skill:
     "skills.tar.gz",
     new Uint8Array(await archiveResponse.arrayBuffer()),
   );
-  const matches = [...files].filter(([path]) => path.endsWith("/skills/asimov/SKILL.md"));
-  if (matches.length !== 1)
-    throw new Error(`expected one skills/asimov/SKILL.md, found ${matches.length}`);
-  return { commit: commit.sha, skill: matches[0][1] };
+  const prefix = "/skills/asimov/";
+  const skill = new Map(
+    [...files].flatMap(([path, data]) => {
+      const index = path.indexOf(prefix);
+      if (index === -1) return [];
+      const relative = path.slice(index + prefix.length);
+      return relative === "" || relative.endsWith("/") ? [] : [[relative, data] as const];
+    }),
+  );
+  if (!skill.has("SKILL.md")) throw new Error("skills/asimov/SKILL.md is missing");
+  return { commit: commit.sha, skill };
 }
 
 function parseOptions(arguments_: string[]): Options {
@@ -342,7 +351,11 @@ async function main(): Promise<void> {
       { path: `${top}install.sh`, data: install, mode: 0o100755 },
       { path: `${top}uninstall.sh`, data: uninstall, mode: 0o100755 },
       { path: `${top}asimov/bin/asimov${executableExtension}`, data: cli, mode: 0o100755 },
-      { path: `${top}asimov/skills/asimov/SKILL.md`, data: skill.skill, mode: 0o100644 },
+      ...[...skill.skill].map(([path, data]) => ({
+        path: `${top}asimov/skills/asimov/${path}`,
+        data,
+        mode: 0o100644,
+      })),
     ];
     for (const module of bundledModules) {
       entries.push({

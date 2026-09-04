@@ -16,6 +16,17 @@ mkdir -p "$ASIMOV_HOME/modules/installed" "$ASIMOV_HOME/modules/enabled" \
 
 present=" $(ls "$ASIMOV_HOME/modules/installed" 2>/dev/null | tr '\n' ' ')"
 
+for path in "$src"/modules/installed/*/; do
+  module="$(basename "$path")"
+  [ -d "$ASIMOV_HOME/modules/installed/$module" ] || continue
+  for link in "$ASIMOV_HOME"/libexec/*; do
+    case "$(readlink "$link" 2>/dev/null)" in
+      *"/modules/installed/$module/bin/"*) rm -f "$link" ;;
+    esac
+  done
+  rm -rf "$ASIMOV_HOME/modules/installed/$module"
+done
+
 cp -R "$src/modules/installed/." "$ASIMOV_HOME/modules/installed/"
 cp "$src/bin/asimov$suffix" "$BIN_DIR/asimov$suffix"
 chmod +x "$BIN_DIR/asimov$suffix" "$ASIMOV_HOME"/modules/installed/*/bin/*
