@@ -32,7 +32,9 @@ cp "$src/bin/asimov$suffix" "$BIN_DIR/asimov$suffix"
 chmod +x "$BIN_DIR/asimov$suffix" "$ASIMOV_HOME"/modules/installed/*/bin/*
 
 if [ "$(uname -s)" = Darwin ]; then
-  xattr -dr com.apple.quarantine "$ASIMOV_HOME" "$BIN_DIR/asimov$suffix" 2>/dev/null || true
+  xattr -dr com.apple.quarantine \
+    "$ASIMOV_HOME/modules" "$ASIMOV_HOME/libexec" \
+    "$BIN_DIR/asimov$suffix" 2>/dev/null || true
 fi
 
 for path in "$ASIMOV_HOME"/modules/installed/*/; do
