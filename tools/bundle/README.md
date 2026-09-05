@@ -88,6 +88,7 @@ Common skill root directories:
 | ----------------- | -------------------------- |
 | Claude Code       | `~/.claude/skills/<name>/` |
 | Hermes            | `~/.hermes/skills/<name>/` |
+| OpenCode          | `~/.config/opencode/skills/<name>/` |
 | Shared convention | `~/.agents/skills/<name>/` |
 
 `~/.agents/skills/` is a shared convention, not a path every harness reads.
