@@ -2,7 +2,8 @@
 """Minimal ACP client: start an agent, open one session, send one prompt.
 
 Usage: acp-drive.py --cwd DIR --prompt TEXT [--timeout SEC]
-                    [--expect TEXT] [--expect-tool REGEX] -- <agent command...>
+                    [--expect TEXT] [--expect-tool REGEX] [--expect-model TEXT]
+                    -- <agent command...>
 
 Speaks the Agent Client Protocol over stdio (JSON-RPC 2.0, one JSON object
 per line). Every session/request_permission is answered with the first
@@ -11,8 +12,12 @@ per line). Every session/request_permission is answered with the first
 Exit code 1 when the turn does not end with stop reason end_turn, or when
 the agent called a tool that asks the user a question. With --expect, the
 agent's text must contain TEXT (case-insensitive). With --expect-tool, at
-least one tool call (title plus rawInput) must match REGEX. Whether an
-install or uninstall was done is checked by the caller against the filesystem.
+least one tool call (title plus rawInput) must match REGEX. With
+--expect-model (default: the ACP_EXPECT_MODEL environment variable), the model
+the agent reports at session start must contain TEXT; some agents silently
+fall back to another model when the configured provider has no credentials.
+Whether an install or uninstall was done is checked by the caller against the
+filesystem.
 """
 import argparse
 import json
@@ -112,6 +117,21 @@ class Client:
                     self.tools[call_id] += " " + extra
 
 
+def session_model(session):
+    """The model the agent reports for a new session, or None when it reports nothing.
+
+    Two shapes exist: `models.currentModelId` (Claude adapter), and a "model"
+    select entry in `configOptions` whose `currentValue` is the model (OpenCode).
+    """
+    current = (session.get("models") or {}).get("currentModelId")
+    if current:
+        return current
+    for option in session.get("configOptions") or []:
+        if "model" in str(option.get("id", "")).lower() or option.get("category") == "model":
+            return option.get("currentValue")
+    return None
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cwd", required=True)
@@ -119,6 +139,8 @@ def main():
     ap.add_argument("--timeout", type=int, default=900)
     ap.add_argument("--expect", help="text the agent's reply must contain (case-insensitive)")
     ap.add_argument("--expect-tool", help="regex at least one tool call must match (title plus rawInput)")
+    ap.add_argument("--expect-model", default=os.environ.get("ACP_EXPECT_MODEL"),
+                    help="text the session's reported model must contain (default: $ACP_EXPECT_MODEL)")
     ap.add_argument("cmd", nargs=argparse.REMAINDER)
     args = ap.parse_args()
     cmd = args.cmd[1:] if args.cmd and args.cmd[0] == "--" else args.cmd
@@ -138,7 +160,8 @@ def main():
     log(f"agent: {json.dumps(init.get('agentInfo') or {})}")
     session = c.request("session/new", {"cwd": args.cwd, "mcpServers": []})
     session_id = session["sessionId"]
-    log(f"session {session_id}; prompt: {args.prompt!r}")
+    model = session_model(session)
+    log(f"session {session_id}; model: {model}; prompt: {args.prompt!r}")
     result = c.request("session/prompt", {"sessionId": session_id, "prompt": [{"type": "text", "text": args.prompt}]})
     timer.cancel()
     c.proc.stdin.close()
@@ -157,6 +180,8 @@ def main():
         failures.append(f"reply does not contain {args.expect!r}")
     if args.expect_tool and not any(re.search(args.expect_tool, t, re.I | re.S) for t in c.tools.values()):
         failures.append(f"no tool call matched /{args.expect_tool}/")
+    if args.expect_model and args.expect_model.lower() not in str(model).lower():
+        failures.append(f"session model is {model!r}, expected it to contain {args.expect_model!r}")
     for f in failures:
         log(f"FAIL: {f}")
     if os.environ.get("GITHUB_STEP_SUMMARY"):
