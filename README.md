@@ -23,6 +23,34 @@ Install `asimov-alpha-0.0.1-macos-arm.zip` from my Downloads folder
 
 ## 👉 Examples
 
+Copy a prompt into your agent, replacing `<username>` with your username.
+
+### X
+
+```text
+Use ASIMOV to fetch my X profile, @<username>
+```
+
+```text
+Use ASIMOV to list my X followers, @<username>
+```
+
+```text
+Use ASIMOV to show who I follow on X, @<username>
+```
+
+### GitHub
+
+```text
+Use ASIMOV to look up my GitHub profile, @<username>
+```
+
+### Instagram
+
+```text
+Use ASIMOV to get my Instagram profile, @<username>
+```
+
 > [!NOTE]
 > *This is a proprietary and confidential repository not for external distribution.*
 
