@@ -17,6 +17,8 @@ done
 
 rm -f "$BIN_DIR/asimov" "$BIN_DIR/asimov.exe"
 rm -rf "$ASIMOV_ROOT/libexec" "$ASIMOV_ROOT/modules"
+# Last, because this may be that copy. Windows can refuse to delete a running script.
+rm -f "$ASIMOV_ROOT/uninstall.sh" 2>/dev/null || true
 
 echo "removed ASIMOV from $ASIMOV_ROOT and $BIN_DIR"
 echo "kept $ASIMOV_ROOT/snapshots (your data); delete it manually if you want it gone"

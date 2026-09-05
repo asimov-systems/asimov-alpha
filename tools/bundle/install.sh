@@ -56,6 +56,13 @@ done
 cli="$("$ASIMOV_CLI" --version)"
 echo "installed $cli at $ASIMOV_CLI"
 
+# A later session may not have the archive. Keep the uninstaller next to the
+# data, so "uninstall" has an official script to run instead of a hand-written
+# rm -rf.
+cp "$(dirname "$src")/uninstall.sh" "$ASIMOV_ROOT/uninstall.sh"
+chmod +x "$ASIMOV_ROOT/uninstall.sh"
+echo "to uninstall later: $ASIMOV_ROOT/uninstall.sh"
+
 case ":${PATH}:" in
   *":$BIN_DIR:"*) ;;
   *) echo "warning: $BIN_DIR is not on your PATH; add it to use 'asimov' by name" ;;
