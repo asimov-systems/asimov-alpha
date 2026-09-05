@@ -6,6 +6,11 @@ name: test
 
 on:
   push:
+    branches: [master]
+    paths:
+      - tools/**
+      - .github/workflows/test.yml
+  workflow_dispatch:
 
 env:
   MODELS: ${{ vars.OPENROUTER_MODELS || '["anthropic/claude-opus-4.6","openai/gpt-5.5","moonshotai/kimi-k3","z-ai/glm-5.2","deepseek/deepseek-v4-pro"]' }}
