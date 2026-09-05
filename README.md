@@ -51,6 +51,16 @@ Use ASIMOV to look up my GitHub profile, @<username>
 Use ASIMOV to get my Instagram profile, @<username>
 ```
 
+## 🧩 Compatibility
+
+### Models
+
+| Model  | Compatible?  | Notes |
+| ------ | ------------ | ----- |
+| Claude Fable 5  | ✓  |  |
+
+## ⚖️ Legal
+
 > [!NOTE]
 > *This is a proprietary and confidential repository not for external distribution.*
 
