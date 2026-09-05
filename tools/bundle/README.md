@@ -33,10 +33,12 @@ Set `ASIMOV_ROOT` or `BIN_DIR` to install elsewhere. For a custom data directory
 keep `ASIMOV_ROOT` exported whenever you run the CLI, installer, or uninstaller;
 a one-command override does not configure future CLI invocations. On Windows,
 `ASIMOV_ROOT` can be a Windows path or a Git Bash path when running these scripts.
-Modules you have explicitly disabled stay disabled across an upgrade. Installing
-the agent skills is a separate step, described below.
+Installing the agent skills is a separate step, described below.
 
-Re-running `./install.sh` upgrades in place.
+Re-running `./install.sh` upgrades in place and enables every bundled module,
+including any you previously disabled. Modules not included in this bundle are
+not enabled by the installer. If installation fails, fix the reported problem
+and rerun the script.
 
 ## Verify
 

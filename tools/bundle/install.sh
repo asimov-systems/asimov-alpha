@@ -21,8 +21,6 @@ fi
 mkdir -p "$ASIMOV_ROOT/modules/installed" "$ASIMOV_ROOT/modules/enabled" \
   "$ASIMOV_ROOT/libexec" "$ASIMOV_ROOT/snapshots" "$BIN_DIR"
 
-present=" $(ls "$ASIMOV_ROOT/modules/installed" 2>/dev/null | tr '\n' ' ')"
-
 for path in "$src"/modules/installed/*/; do
   module="$(basename "$path")"
   [ -d "$ASIMOV_ROOT/modules/installed/$module" ] || continue
@@ -43,13 +41,10 @@ if [ "$(uname -s)" = Darwin ]; then
     "$BIN_DIR/asimov$suffix" 2>/dev/null || true
 fi
 
-for path in "$ASIMOV_ROOT"/modules/installed/*/; do
+for path in "$src"/modules/installed/*/; do
   module="$(basename "$path")"
-  case "$present" in
-    *" $module "*) ;;
-    *) ASIMOV_ROOT="$ASIMOV_ROOT" "$BIN_DIR/asimov$suffix" module enable "$module" ;;
-  esac
-  for prog in "$path"bin/*; do
+  ASIMOV_ROOT="$ASIMOV_ROOT" "$BIN_DIR/asimov$suffix" module enable "$module"
+  for prog in "$ASIMOV_ROOT/modules/installed/$module/bin/"*; do
     [ -f "$prog" ] || continue
     ln -sf "../modules/installed/$module/bin/$(basename "$prog")" "$ASIMOV_ROOT/libexec/"
   done
