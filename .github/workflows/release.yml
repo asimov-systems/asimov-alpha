@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    tags: ["*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Alpha version already committed in VERSION"
+        required: true
+        type: string
+      cli:
+        description: "asimov-cli release tag, or latest"
+        required: true
+        default: latest
+        type: string
+      modules:
+        description: "Comma-separated module releases (name/tag)"
+        required: true
+        default: social/latest
+        type: string
+      skills:
+        description: "skills tag/commit, or latest for default-branch HEAD"
+        required: true
+        default: latest
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.1
+
+      - name: Resolve and validate version
+        id: version
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          version="$(tr -d '[:space:]' < VERSION)"
+          if [ "$GITHUB_REF_TYPE" = tag ]; then
+            requested="$GITHUB_REF_NAME"
+          else
+            requested="$REQUESTED_VERSION"
+          fi
+          tag="$version"
+          if [ "$requested" != "$version" ]; then
+            echo "VERSION contains $version, but the requested release is $requested" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Install packager dependency
+        working-directory: tools
+        run: bun install --frozen-lockfile
+
+      - name: Create bundles
+        working-directory: tools
+        env:
+          SANDBOX_RELEASES_TOKEN: ${{ secrets.SANDBOX_RELEASES_TOKEN }}
+          CLI_REF: ${{ inputs.cli || 'latest' }}
+          MODULE_REFS: ${{ inputs.modules || 'social/latest' }}
+          SKILLS_REF: ${{ inputs.skills || 'latest' }}
+        run: |
+          bun run zip \
+            --cli "$CLI_REF" \
+            --modules "$MODULE_REFS" \
+            --skills "$SKILLS_REF"
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release create "$TAG" dist/* \
+            --target "$GITHUB_SHA" \
+            --title "ASIMOV Alpha $VERSION" \
+            --generate-notes \
+            --prerelease \
+            || gh release upload "$TAG" dist/* --clobber
