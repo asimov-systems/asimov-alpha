@@ -269,6 +269,12 @@ async function main(): Promise<void> {
     }),
   );
 
+  if (options.modules.has("social")) {
+    const snippet = await Bun.file(join(tools, "bundle/social-skill.md")).text();
+    const upstream = decoder.decode(skill.skill.get("SKILL.md")!);
+    skill.skill.set("SKILL.md", encoder.encode(`${upstream.trimEnd()}\n\n${snippet.trim()}\n`));
+  }
+
   console.log(`ASIMOV Alpha ${version}`);
   console.log(`  CLI:    ${cliRelease.tag_name}`);
   for (const module of modules) console.log(`  ${module.name}: ${module.release.tag_name}`);
