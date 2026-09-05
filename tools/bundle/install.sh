@@ -46,7 +46,8 @@ for path in "$src"/modules/installed/*/; do
   ASIMOV_ROOT="$ASIMOV_ROOT" "$BIN_DIR/asimov$suffix" module enable "$module"
   for prog in "$ASIMOV_ROOT/modules/installed/$module/bin/"*; do
     [ -f "$prog" ] || continue
-    ln -sf "../modules/installed/$module/bin/$(basename "$prog")" "$ASIMOV_ROOT/libexec/"
+    name="$(basename "$prog")"
+    ln -sfn "../modules/installed/$module/bin/$name" "$ASIMOV_ROOT/libexec/$name"
   done
   echo "installed module $module"
 done
