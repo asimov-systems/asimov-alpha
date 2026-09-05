@@ -282,7 +282,6 @@ async function main(): Promise<void> {
 
   await rm(outputDirectory, { recursive: true, force: true });
   await mkdir(outputDirectory, { recursive: true });
-  const checksums: string[] = [];
 
   for (const target of options.targets) {
     const extension = target === "windows-x64" ? ".zip" : ".tar.gz";
@@ -409,14 +408,10 @@ async function main(): Promise<void> {
     }
     const zip = zipSync(zipEntries);
     const filename = `${archiveName}.zip`;
-    const checksum = sha256(zip);
     await Bun.write(join(outputDirectory, filename), zip);
-    await Bun.write(join(outputDirectory, `${filename}.sha256`), `${checksum}  ${filename}\n`);
-    checksums.push(`${checksum}  ${filename}`);
   }
 
-  await Bun.write(join(outputDirectory, "SHA256SUMS.txt"), `${checksums.join("\n")}\n`);
-  console.log(`Wrote ${checksums.length} bundles to ${outputDirectory}`);
+  console.log(`Wrote ${options.targets.length} bundles to ${outputDirectory}`);
 }
 
 if (import.meta.main) {
