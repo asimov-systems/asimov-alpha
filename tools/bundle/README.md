@@ -120,6 +120,9 @@ Upstream, and installable independently, at
 ./uninstall.sh
 ```
 
+On Windows, in Git Bash: `$APPDATA/ASIMOV/uninstall.sh`. The installer put
+this copy next to the data, so the archive is not needed.
+
 Removes the CLI and all modules. Leaves `snapshots/` in the data directory in
 place, and does not touch skills you copied into a harness — it lists them so
 you can remove them yourself.
