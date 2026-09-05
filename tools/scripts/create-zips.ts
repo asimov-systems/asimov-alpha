@@ -382,7 +382,7 @@ async function main(): Promise<void> {
       }
       for (const program of module.programs) {
         entries.push({
-          path: `${top}asimov/modules/installed/${module.name}/bin/${program}${executableExtension}`,
+          path: `${top}asimov/modules/installed/${module.name}/bin/${program}`,
           data: findFile(module.files, `${program}${executableExtension}`),
           mode: 0o100755,
         });

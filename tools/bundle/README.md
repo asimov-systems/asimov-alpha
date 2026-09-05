@@ -25,13 +25,16 @@ shell to use.
 
 The installer:
 
-1. copies the modules into `~/.asimov`
+1. copies the modules into `~/.asimov` (Windows: `%APPDATA%\ASIMOV`)
 2. copies the `asimov` CLI into `~/.local/bin`
 3. creates the `libexec` and `modules/enabled` links
 
-Set `ASIMOV_HOME` or `BIN_DIR` to install elsewhere. Modules you have
-explicitly disabled stay disabled across an upgrade. Installing the agent
-skills is a separate step, described below.
+Set `ASIMOV_ROOT` or `BIN_DIR` to install elsewhere. For a custom data directory,
+keep `ASIMOV_ROOT` exported whenever you run the CLI, installer, or uninstaller;
+a one-command override does not configure future CLI invocations. On Windows,
+`ASIMOV_ROOT` can be a Windows path or a Git Bash path when running these scripts.
+Modules you have explicitly disabled stay disabled across an upgrade. Installing
+the agent skills is a separate step, described below.
 
 Re-running `./install.sh` upgrades in place.
 
@@ -54,6 +57,9 @@ If that is not found, the installer printed the full path to use instead.
 │   └── enabled/<module>           link to the installed module
 └── snapshots/                     your data; never touched by the installer
 ```
+
+On Windows, the same data layout lives under `%APPDATA%\ASIMOV` instead of
+`~/.asimov`. `ASIMOV_ROOT` overrides the data directory on either platform.
 
 ## Agent skills
 
@@ -111,9 +117,9 @@ Upstream, and installable independently, at
 ./uninstall.sh
 ```
 
-Removes the CLI and all modules. Leaves `~/.asimov/snapshots` in place, and
-does not touch skills you copied into a harness — it lists them so you can
-remove them yourself.
+Removes the CLI and all modules. Leaves `snapshots/` in the data directory in
+place, and does not touch skills you copied into a harness — it lists them so
+you can remove them yourself.
 
 ## Notes for macOS
 
@@ -133,11 +139,15 @@ finds that path with `git --exec-path`.
 Facts that an agent on Windows must know before it runs the installer:
 
 - `install.sh` runs in Git Bash without changes. No WSL is necessary.
-- `~` in Git Bash is `C:\Users\<name>`. The files go to
-  `C:\Users\<name>\.asimov` and `C:\Users\<name>\.local\bin`.
-- `ln -s` in Git Bash makes a copy by default, so the installer enables
-  modules through `asimov module enable`, which creates a real symlink. That
-  needs Developer Mode or an elevated shell on Windows.
+- Data goes to `%APPDATA%\ASIMOV` (usually
+  `C:\Users\<name>\AppData\Roaming\ASIMOV`), matching the native CLI.
+  The CLI goes to `~/.local/bin` (usually `C:\Users\<name>\.local\bin`).
+- The installer forces native Windows symlinks instead of Git Bash's default
+  file copies. Enable Developer Mode or use an elevated shell, and install on
+  a filesystem that supports symlinks (NTFS/ReFS, not FAT32/exFAT). Link creation
+  fails rather than falling back to copies when these requirements are not met.
+- Module executables are stored without `.exe`, matching the ASIMOV SDK's
+  install layout. The top-level CLI remains `asimov.exe`.
 
 The install and uninstall steps are safe to run without further questions.
 If you are an agent, run `./install.sh` in Git Bash and then verify with
