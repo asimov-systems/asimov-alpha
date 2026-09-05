@@ -17,6 +17,7 @@ if [ -f "$src/bin/asimov.exe" ]; then
 else
   suffix=
 fi
+ASIMOV_CLI="$BIN_DIR/asimov$suffix"
 
 mkdir -p "$ASIMOV_ROOT/modules/installed" "$ASIMOV_ROOT/modules/enabled" \
   "$ASIMOV_ROOT/libexec" "$ASIMOV_ROOT/snapshots" "$BIN_DIR"
@@ -32,18 +33,18 @@ for path in "$src"/modules/installed/*/; do
 done
 
 cp -R "$src/modules/installed/." "$ASIMOV_ROOT/modules/installed/"
-cp "$src/bin/asimov$suffix" "$BIN_DIR/asimov$suffix"
-chmod +x "$BIN_DIR/asimov$suffix" "$ASIMOV_ROOT"/modules/installed/*/bin/*
+cp "$src/bin/asimov$suffix" "$ASIMOV_CLI"
+chmod +x "$ASIMOV_CLI" "$ASIMOV_ROOT"/modules/installed/*/bin/*
 
 if [ "$(uname -s)" = Darwin ]; then
   xattr -dr com.apple.quarantine \
     "$ASIMOV_ROOT/modules" "$ASIMOV_ROOT/libexec" \
-    "$BIN_DIR/asimov$suffix" 2>/dev/null || true
+    "$ASIMOV_CLI" 2>/dev/null || true
 fi
 
 for path in "$src"/modules/installed/*/; do
   module="$(basename "$path")"
-  ASIMOV_ROOT="$ASIMOV_ROOT" "$BIN_DIR/asimov$suffix" module enable "$module"
+  ASIMOV_ROOT="$ASIMOV_ROOT" "$ASIMOV_CLI" module enable "$module"
   for prog in "$ASIMOV_ROOT/modules/installed/$module/bin/"*; do
     [ -f "$prog" ] || continue
     name="$(basename "$prog")"
@@ -52,8 +53,8 @@ for path in "$src"/modules/installed/*/; do
   echo "installed module $module"
 done
 
-cli="$("$BIN_DIR/asimov$suffix" --version)"
-echo "installed $cli at $BIN_DIR/asimov$suffix"
+cli="$("$ASIMOV_CLI" --version)"
+echo "installed $cli at $ASIMOV_CLI"
 
 case ":${PATH}:" in
   *":$BIN_DIR:"*) ;;
