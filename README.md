@@ -63,11 +63,28 @@ Use ASIMOV to look up my GitHub profile, @<username>
 
 ## 🧩 Compatibility
 
+<details>
+<summary>Models</summary>
+
 ### Models
 
 | Model  | Compatible?  | Notes |
 | ------ | ------------ | ----- |
-| Claude Fable 5  | ✓  |  |
+| Anthropic Claude Fable 5.1  | ✓  |  |
+| Anthropic Claude Fable 5  | ✓  |  |
+| Anthropic Claude Haiku 4.5  | ✓  |  |
+| Anthropic Claude Opus 5  | ✓  |  |
+| Anthropic Claude Opus 4.6  | ✓  |  |
+| Anthropic Claude Sonnet 5  | ✓  |  |
+| DeepSeek V4 Flash 0731  | ✓  |  |
+| DeepSeek V4 Pro  | ✓  |  |
+| MoonshotAI Kimi K3  | ✓  |  |
+| OpenAI GPT-6 Astra  | ✓  |  |
+| OpenAI GPT-5.6 Luna  | ✓  |  |
+| OpenAI GPT-5.5  | ✓  |  |
+| OpenAI GPT-5.4  | ✓  | Hermes & Claude Code OK, OpenCode not |
+| Z.ai GLM 5.2  | ✓  |  |
+</details>
 
 ## ⚖️ Legal
 
