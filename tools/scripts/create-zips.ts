@@ -84,7 +84,7 @@ async function request(
   const token = process.env.SANDBOX_RELEASES_TOKEN?.trim();
   if (authenticated && !token) {
     throw new Error(
-      "SANDBOX_RELEASES_TOKEN is required to read the private asimov-sandbox release; see README.md",
+      "SANDBOX_RELEASES_TOKEN is required to read the private asimov-sandbox release; see tools/README.md",
     );
   }
   const response = await fetch(url, {
@@ -109,7 +109,35 @@ async function resolveRelease(
   repository: string,
   requested: string,
   authenticated: boolean,
+  moduleName?: string,
 ): Promise<Release> {
+  if (requested === "latest" && moduleName) {
+    let latest: (Release & { published_at: string }) | undefined;
+    for (let page = 1; ; page++) {
+      const response = await request(
+        `https://api.github.com/repos/${repository}/releases?per_page=100&page=${page}`,
+        authenticated,
+      );
+      const releases = (await response.json()) as (Release & {
+        draft: boolean;
+        prerelease: boolean;
+        published_at: string;
+      })[];
+      for (const release of releases) {
+        if (
+          !release.draft &&
+          !release.prerelease &&
+          release.tag_name.startsWith(`${moduleName}/`) &&
+          (!latest || release.published_at > latest.published_at)
+        ) {
+          latest = release;
+        }
+      }
+      if (releases.length < 100) break;
+    }
+    if (!latest) throw new Error(`no stable releases found for ${moduleName} in ${repository}`);
+    return latest;
+  }
   const selector = requested === "latest" ? "latest" : `tags/${encodeURIComponent(requested)}`;
   return request(
     `https://api.github.com/repos/${repository}/releases/${selector}`,
@@ -209,7 +237,7 @@ function parseOptions(arguments_: string[]): Options {
 
 options:
   --cli <tag|latest>          CLI release (default: latest)
-  --modules <name/tag,...>    Module releases (default: social/latest)
+  --modules <name/version,...> Module release tags (default: social/latest)
   --skills <ref|latest>       Skills tag, commit, or default-branch HEAD (default: latest)
   --target <name>             Build one target; repeat to build several (default: all)
   -h, --help                  Show this help
@@ -227,14 +255,17 @@ targets:
     if (argument === "--modules") {
       options.modules.clear();
       for (const item of value.split(",")) {
-        const [name, release, extra] = item.trim().split("/");
-        if (!name || !release || extra !== undefined) {
-          throw new Error(`invalid module selection: ${item}; expected name/tag`);
+        const tag = item.trim();
+        const separator = tag.indexOf("/");
+        const name = tag.slice(0, separator);
+        const version = tag.slice(separator + 1);
+        if (separator <= 0 || !version) {
+          throw new Error(`invalid module selection: ${item}; expected name/version`);
         }
         if (!moduleDefinitions[name]) {
           throw new Error(`unknown module: ${name}; available: ${Object.keys(moduleDefinitions)}`);
         }
-        options.modules.set(name, release);
+        options.modules.set(name, version === "latest" ? "latest" : tag);
       }
     }
     if (argument === "--skills") options.skills = value;
@@ -264,7 +295,12 @@ async function main(): Promise<void> {
         name,
         requested,
         ...definition,
-        release: await resolveRelease(definition.repository, requested, definition.authenticated),
+        release: await resolveRelease(
+          definition.repository,
+          requested,
+          definition.authenticated,
+          name,
+        ),
       };
     }),
   );

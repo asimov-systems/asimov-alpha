@@ -15,7 +15,7 @@ on:
         default: latest
         type: string
       modules:
-        description: "Comma-separated module releases (name/tag)"
+        description: "Comma-separated module release tags (name/version or name/latest)"
         required: true
         default: social/latest
         type: string
