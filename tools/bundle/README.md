@@ -57,7 +57,8 @@ If that is not found, the installer printed the full path to use instead.
 ├── modules/
 │   ├── installed/<module>/        manifest.json, bin/, doc/
 │   └── enabled/<module>           link to the installed module
-└── snapshots/                     your data; never touched by the installer
+├── snapshots/                     your data; never touched by the installer
+└── uninstall.sh                   the uninstaller; run this to uninstall
 ```
 
 On Windows, the same data layout lives under `%APPDATA%\ASIMOV` instead of
@@ -88,6 +89,7 @@ Common skill root directories:
 | ----------------- | -------------------------- |
 | Claude Code       | `~/.claude/skills/<name>/` |
 | Hermes            | `~/.hermes/skills/<name>/` |
+| OpenCode          | `~/.config/opencode/skills/<name>/` |
 | Shared convention | `~/.agents/skills/<name>/` |
 
 `~/.agents/skills/` is a shared convention, not a path every harness reads.
@@ -116,12 +118,23 @@ Upstream, and installable independently, at
 ## Uninstall
 
 ```sh
-./uninstall.sh
+~/.asimov/uninstall.sh
 ```
+
+On Windows, in Git Bash: `$APPDATA/ASIMOV/uninstall.sh`. The installer put
+this copy next to the data, so the archive is not needed.
 
 Removes the CLI and all modules. Leaves `snapshots/` in the data directory in
 place, and does not touch skills you copied into a harness — it lists them so
 you can remove them yourself.
+
+### If you are an agent uninstalling ASIMOV at the user's request
+
+The user asking you to uninstall ASIMOV includes removing the agent skill.
+After `~/.asimov/uninstall.sh` finishes, delete the `asimov` directory from your
+harness's skills root, the same location you copied it to during install.
+The uninstall is complete only when the CLI, the modules, and the skill are
+all gone. Do not leave the skill in place and ask whether to remove it.
 
 ## Notes for macOS
 

@@ -269,11 +269,18 @@ async function main(): Promise<void> {
     }),
   );
 
-  if (options.modules.has("social")) {
-    const snippet = await Bun.file(join(tools, "bundle/social-skill.md")).text();
-    const upstream = decoder.decode(skill.skill.get("SKILL.md")!);
-    skill.skill.set("SKILL.md", encoder.encode(`${upstream.trimEnd()}\n\n${snippet.trim()}\n`));
+  // Appended to the upstream SKILL.md: module notes when the module ships,
+  // then the uninstall notes in every bundle.
+  const snippets = [];
+  if (options.modules.has("social")) snippets.push("bundle/social-skill.md");
+  snippets.push("bundle/uninstall-prompt.md");
+
+  let text = decoder.decode(skill.skill.get("SKILL.md")!).trimEnd();
+  for (const snippet of snippets) {
+    text += `\n\n${(await Bun.file(join(tools, snippet)).text()).trim()}`;
   }
+
+  skill.skill.set("SKILL.md", encoder.encode(`${text}\n`));
 
   console.log(`ASIMOV Alpha ${version}`);
   console.log(`  CLI:    ${cliRelease.tag_name}`);
