@@ -57,7 +57,8 @@ jobs:
           bun run zip \
             --cli "latest" \
             --modules "social/latest" \
-            --skills "latest"
+            --skills "latest" \
+            --target linux-x86-gnu
       - uses: actions/upload-artifact@v4
         with:
           name: asimov-zip
