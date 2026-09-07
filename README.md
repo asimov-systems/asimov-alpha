@@ -6,8 +6,9 @@
 
 ## ✨ Features
 
-- An exclusive private preview distribution of the [ASIMOV Platform] for social media intelligence.
-- Plugs into your current agent harness as a sidecar; verified with Hermes,
+- An exclusive private distribution of [ASIMOV Platform] specialized for
+  social media intelligence.
+- Plugs into your current agent harness as a sidecar: verified with Hermes,
   OpenClaw, Claude Code, etc.
 - Makes social graphs transparent, disregarding typical barriers such as
   restrictive, expensive APIs.
@@ -63,10 +64,15 @@ Use ASIMOV to look up my GitHub profile, @<username>
 
 ## 🧩 Compatibility
 
-<details>
-<summary>Models</summary>
+### Agents
+
+We currently test compatibility with Hermes, Claude Code, and OpenCode.
+Any comparably powerful agent harness is likely to work with ASIMOV.
 
 ### Models
+
+<details>
+<summary>Full model compatibility table</summary>
 
 | Model  | Compatible?  | Notes |
 | ------ | ------------ | ----- |
