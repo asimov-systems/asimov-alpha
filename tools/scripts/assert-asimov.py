@@ -18,7 +18,7 @@ import zipfile
 from pathlib import Path
 
 HOME = Path.home()
-ASIMOV_HOME = Path(os.environ.get("ASIMOV_HOME", HOME / ".asimov"))
+ASIMOV_ROOT = Path(os.environ.get("ASIMOV_ROOT", HOME / ".asimov"))
 BIN = Path(os.environ.get("BIN_DIR", HOME / ".local" / "bin")) / "asimov"
 
 failed = False
@@ -37,10 +37,10 @@ def installed(roots):
     except (OSError, subprocess.CalledProcessError) as e:
         check(False, f"cli: {BIN} --version: {e}")
     for mod, progs in sorted(bundled_modules().items()):
-        check((ASIMOV_HOME / "modules/installed" / mod / "manifest.json").is_file(), f"module {mod} installed")
-        check((ASIMOV_HOME / "modules/enabled" / mod).exists(), f"module {mod} enabled")
+        check((ASIMOV_ROOT / "modules/installed" / mod / "manifest.json").is_file(), f"module {mod} installed")
+        check((ASIMOV_ROOT / "modules/enabled" / mod).exists(), f"module {mod} enabled")
         for prog in sorted(progs):
-            check(os.access(ASIMOV_HOME / "libexec" / prog, os.X_OK), f"program {prog} linked")
+            check(os.access(ASIMOV_ROOT / "libexec" / prog, os.X_OK), f"program {prog} linked")
     found = [r for r in roots if (r / "asimov/SKILL.md").is_file()]
     check(bool(found), f"skill at {found[0] / 'asimov/SKILL.md'}" if found else f"skill asimov/SKILL.md not found in: {roots}")
     if not found:
@@ -65,8 +65,8 @@ def bundled_modules():
 
 def uninstalled(roots):
     check(not BIN.exists(), f"cli removed ({BIN})")
-    check(not (ASIMOV_HOME / "modules").exists(), "modules removed")
-    check(not (ASIMOV_HOME / "libexec").exists(), "libexec removed")
+    check(not (ASIMOV_ROOT / "modules").exists(), "modules removed")
+    check(not (ASIMOV_ROOT / "libexec").exists(), "libexec removed")
     for r in roots:
         check(not (r / "asimov").exists(), f"skill removed from {r}")
     if failed:
