@@ -15,7 +15,7 @@ const targets = [
   "linux-x86-gnu",
   "linux-x86-musl",
   "macos-arm",
-  // "macos-x86",
+  "macos-x86",
   "windows-x64",
 ] as const;
 
