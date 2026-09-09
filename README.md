@@ -26,6 +26,8 @@
 Install `asimov-alpha-0.1.1-macos-arm.zip` from my Downloads folder
 ```
 
+<img alt="Screenshot of installation with Hermes Desktop" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-install.png?raw=true"/>
+
 <details>
 <summary>Technical details for the curious</summary>
 
