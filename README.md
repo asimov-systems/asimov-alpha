@@ -1,8 +1,8 @@
 # ASIMOV Alpha
 
-<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.1.1/asimov-alpha-0.1.1-macos-arm.zip"><img width="220" alt="Download for macOS" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-macos.png?raw=true"/></a>
-<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.1.1/asimov-alpha-0.1.1-windows-x64.zip"><img width="220" alt="Download for Windows" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-windows.png?raw=true"/></a>
-<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.1.1/asimov-alpha-0.1.1-linux-x86-gnu.zip"><img width="220" alt="Download for Linux" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-linux.png?raw=true"/></a>
+<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.2.0/asimov-alpha-0.2.0-macos-arm.zip"><img width="220" alt="Download for macOS" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-macos.png?raw=true"/></a>
+<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.2.0/asimov-alpha-0.2.0-windows-x64.zip"><img width="220" alt="Download for Windows" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-windows.png?raw=true"/></a>
+<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.2.0/asimov-alpha-0.2.0-linux-x86-gnu.zip"><img width="220" alt="Download for Linux" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-linux.png?raw=true"/></a>
 
 ## ✨ Features
 
@@ -23,7 +23,7 @@
    to unzip the file and install the contents:
 
 ```
-Install `asimov-alpha-0.1.1-macos-arm.zip` from my Downloads folder
+Install `asimov-alpha-0.2.0-macos-arm.zip` from my Downloads folder
 ```
 
 <img alt="Screenshot of installation with Hermes Desktop" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-install.png?raw=true"/>
