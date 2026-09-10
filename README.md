@@ -36,32 +36,46 @@ TBD
 
 ## 👉 Examples
 
-Copy a prompt into your agent, replacing `<username>` with your username.
+Try asking your agent:
 
 ### X (fka Twitter)
 
 ```text
-Use ASIMOV to fetch my X profile, @<username>
+Use ASIMOV to look up @ASIMOV_Platform on X
 ```
 
 ```text
-Use ASIMOV to list my X followers, @<username>
+Use ASIMOV to list @ASIMOV_Platform's followers on X
 ```
 
 ```text
-Use ASIMOV to show who I follow on X, @<username>
+Use ASIMOV to show who @ASIMOV_Platform follows on X
 ```
 
 ### Instagram
 
 ```text
-Use ASIMOV to get my Instagram profile, @<username>
+Use ASIMOV to look up @nasa on Instagram
 ```
 
 ### GitHub
 
 ```text
-Use ASIMOV to look up my GitHub profile, @<username>
+Use ASIMOV to look up asimov-platform on GitHub
+```
+
+### Luma
+
+```text
+Use ASIMOV to look up https://luma.com/user/arto
+```
+
+```text
+Use ASIMOV to look up the Luma calendar at https://luma.com/asimov-sf
+```
+
+```text
+Use ASIMOV to list events at https://luma.com/asimov-sf
 ```
 
 ## 🧩 Compatibility
@@ -76,31 +90,31 @@ Any comparably powerful agent harness is likely to work with ASIMOV.
 <details>
 <summary>Full model compatibility table</summary>
 
-| Model  | Compatible?  | Notes |
-| ------ | ------------ | ----- |
-| Anthropic Claude Fable 5.1  | ✓  |  |
-| Anthropic Claude Fable 5  | ✓  |  |
-| Anthropic Claude Haiku 4.5  | ✓  |  |
-| Anthropic Claude Opus 5  | ✓  |  |
-| Anthropic Claude Opus 4.6  | ✓  |  |
-| Anthropic Claude Sonnet 5  | ✓  |  |
-| DeepSeek V4 Flash 0731  | ✓  |  |
-| DeepSeek V4 Pro  | ✓  |  |
-| MoonshotAI Kimi K3  | ✓  |  |
-| OpenAI GPT-6 Astra  | ✓  |  |
-| OpenAI GPT-5.6 Luna  | ✓  |  |
-| OpenAI GPT-5.5  | ✓  |  |
-| OpenAI GPT-5.4  | ✓  | Hermes & Claude Code OK, OpenCode not |
-| Z.ai GLM 5.2  | ✓  |  |
+| Model                      | Compatible? | Notes                                 |
+| -------------------------- | ----------- | ------------------------------------- |
+| Anthropic Claude Fable 5.1 | ✓           |                                       |
+| Anthropic Claude Fable 5   | ✓           |                                       |
+| Anthropic Claude Haiku 4.5 | ✓           |                                       |
+| Anthropic Claude Opus 5    | ✓           |                                       |
+| Anthropic Claude Opus 4.6  | ✓           |                                       |
+| Anthropic Claude Sonnet 5  | ✓           |                                       |
+| DeepSeek V4 Flash 0731     | ✓           |                                       |
+| DeepSeek V4 Pro            | ✓           |                                       |
+| MoonshotAI Kimi K3         | ✓           |                                       |
+| OpenAI GPT-6 Astra         | ✓           |                                       |
+| OpenAI GPT-5.6 Luna        | ✓           |                                       |
+| OpenAI GPT-5.5             | ✓           |                                       |
+| OpenAI GPT-5.4             | ✓           | Hermes & Claude Code OK, OpenCode not |
+| Z.ai GLM 5.2               | ✓           |                                       |
+
 </details>
 
 ## ⚖️ Legal
 
 > [!NOTE]
-> *This is proprietary and confidential software not for redistribution.*
+> _This is proprietary and confidential software not for redistribution._
 
 [latest zip]: https://github.com/asimov-systems/asimov-alpha/releases
-
 [ASIMOV Platform]: https://github.com/asimov-platform
 [Claude Code]: https://claude.com/product/claude-code
 [Hermes]: https://hermes-agent.nousresearch.com/desktop
