@@ -167,6 +167,16 @@ Facts that an agent on Windows must know before it runs the installer:
 
 ### Windows installation order for agents
 
+Before the steps below, check whether Git for Windows is installed.
+If it is missing, install it from PowerShell:
+
+```powershell
+winget install --id Git.Git -e --source winget
+```
+
+After installation, refresh the shell's PATH or use the installed Git executable's full path.
+Check that Git Bash is available before continuing.
+
 1. Check whether Developer Mode is enabled on the machine.
 2. If Developer Mode is enabled, run `./install.sh` in Git Bash without
    elevation. Then continue at step 5.
