@@ -27,7 +27,7 @@ The installer:
 
 1. copies the modules into `~/.asimov` (Windows: `%APPDATA%\ASIMOV`)
 2. copies the `asimov` CLI into `~/.local/bin`
-3. creates the `libexec` and `modules/enabled` links
+3. creates the `libexec` and `modules/enabled` links, or copies if linking fails
 
 Set `ASIMOV_ROOT` or `BIN_DIR` to install elsewhere. For a custom data directory,
 keep `ASIMOV_ROOT` exported whenever you run the CLI, installer, or uninstaller;
@@ -157,10 +157,10 @@ Facts that an agent on Windows must know before it runs the installer:
 - Data goes to `%APPDATA%\ASIMOV` (usually
   `C:\Users\<name>\AppData\Roaming\ASIMOV`), matching the native CLI.
   The CLI goes to `~/.local/bin` (usually `C:\Users\<name>\.local\bin`).
-- The installer forces native Windows symlinks instead of Git Bash's default
-  file copies. Enable Developer Mode or use an elevated shell, and install on
-  a filesystem that supports symlinks (NTFS/ReFS, not FAT32/exFAT). Link creation
-  fails rather than falling back to copies when these requirements are not met.
+- The installer tries native Windows symlinks and falls back to copies if
+  link creation fails. Developer Mode and an elevated shell are not required
+  for the copy fallback. Copies use extra disk space and are refreshed when
+  you rerun the installer.
 - Module executables are stored without `.exe`, matching the ASIMOV SDK's
   install layout. The top-level CLI remains `asimov.exe`.
 
