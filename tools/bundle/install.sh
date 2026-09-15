@@ -44,11 +44,20 @@ fi
 
 for path in "$src"/modules/installed/*/; do
   module="$(basename "$path")"
-  ASIMOV_ROOT="$ASIMOV_ROOT" "$ASIMOV_CLI" module enable "$module"
+  enabled="$ASIMOV_ROOT/modules/enabled/$module"
+  rm -rf "$enabled"
+  if ! ln -s "../installed/$module" "$enabled"; then
+    echo "symlink unavailable; copying module $module"
+    cp -R "$ASIMOV_ROOT/modules/installed/$module" "$enabled"
+  fi
   for prog in "$ASIMOV_ROOT/modules/installed/$module/bin/"*; do
     [ -f "$prog" ] || continue
     name="$(basename "$prog")"
-    ln -sfn "../modules/installed/$module/bin/$name" "$ASIMOV_ROOT/libexec/$name"
+    rm -f "$ASIMOV_ROOT/libexec/$name"
+    if ! ln -s "../modules/installed/$module/bin/$name" "$ASIMOV_ROOT/libexec/$name"; then
+      echo "symlink unavailable; copying program $name"
+      cp "$prog" "$ASIMOV_ROOT/libexec/$name"
+    fi
   done
   echo "installed module $module"
 done

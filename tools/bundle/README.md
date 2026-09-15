@@ -20,14 +20,15 @@ $bash = Join-Path (git --exec-path) "..\..\..\bin\bash.exe"
 & $bash -lc "./install.sh"
 ```
 
-If you are an agent on Windows, use Git Bash. Do not ask the user which
-shell to use.
+If you are an agent on Windows, follow the ordered steps under "Notes for
+Windows" before running the installer. Use Git Bash. Do not ask the user
+which shell to use.
 
 The installer:
 
 1. copies the modules into `~/.asimov` (Windows: `%APPDATA%\ASIMOV`)
 2. copies the `asimov` CLI into `~/.local/bin`
-3. creates the `libexec` and `modules/enabled` links
+3. creates the `libexec` and `modules/enabled` links, or copies if linking fails
 
 Set `ASIMOV_ROOT` or `BIN_DIR` to install elsewhere. For a custom data directory,
 keep `ASIMOV_ROOT` exported whenever you run the CLI, installer, or uninstaller;
@@ -157,16 +158,41 @@ Facts that an agent on Windows must know before it runs the installer:
 - Data goes to `%APPDATA%\ASIMOV` (usually
   `C:\Users\<name>\AppData\Roaming\ASIMOV`), matching the native CLI.
   The CLI goes to `~/.local/bin` (usually `C:\Users\<name>\.local\bin`).
-- The installer forces native Windows symlinks instead of Git Bash's default
-  file copies. Enable Developer Mode or use an elevated shell, and install on
-  a filesystem that supports symlinks (NTFS/ReFS, not FAT32/exFAT). Link creation
-  fails rather than falling back to copies when these requirements are not met.
+- The installer tries native Windows symlinks and falls back to copies if
+  link creation fails. Developer Mode and an elevated shell are not required
+  for the copy fallback. Copies use extra disk space and are refreshed when
+  you rerun the installer.
 - Module executables are stored without `.exe`, matching the ASIMOV SDK's
   install layout. The top-level CLI remains `asimov.exe`.
 
-The install and uninstall steps are safe to run without further questions.
-If you are an agent, run `./install.sh` in Git Bash and then verify with
-`asimov --version` in Git Bash.
+### Windows installation order for agents
+
+Before the steps below, check whether Git for Windows is installed.
+If it is missing, install it from PowerShell:
+
+```powershell
+winget install --id Git.Git -e --source winget
+```
+
+After installation, refresh the shell's PATH or use the installed Git executable's full path.
+Check that Git Bash is available before continuing.
+
+1. Check whether Developer Mode is enabled on the machine.
+2. If Developer Mode is enabled, run `./install.sh` in Git Bash without
+   elevation. Then continue at step 5.
+3. If Developer Mode is disabled or unknown, request permission to run the
+   installer in elevated Git Bash. Explain that elevation allows native
+   symlinks. If permission is already granted, use it without asking again.
+   If permission is granted, run the installer elevated and continue at
+   step 5. Keep the same extracted directory and installation paths.
+4. Only if the user declines elevation, run `./install.sh` in Git Bash
+   without elevation.
+5. After a successful install, run `asimov --version` in Git Bash. Then
+   install the agent skill as described under "Agent skills".
+
+Do not enable Developer Mode automatically. Do not treat an unanswered
+permission request as a refusal. If the elevated installer fails, report
+the error instead of treating it as declined permission.
 
 ## Reporting problems
 
