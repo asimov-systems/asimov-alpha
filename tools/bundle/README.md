@@ -196,5 +196,8 @@ the error instead of treating it as declined permission.
 
 ## Reporting problems
 
-Include the output of `./install.sh`, the `VERSION` and `SOURCES.json` files
-from this archive, and `uname -sm`.
+Report bugs and request new features at the private GitHub issue tracker at:
+https://github.com/asimov-systems/asimov-alpha/issues
+
+Make sure to include the output of `./install.sh`, the `VERSION` and
+`SOURCES.json` files from this archive, and the output of `uname -sm`.
