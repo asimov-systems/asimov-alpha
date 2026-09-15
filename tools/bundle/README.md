@@ -20,8 +20,9 @@ $bash = Join-Path (git --exec-path) "..\..\..\bin\bash.exe"
 & $bash -lc "./install.sh"
 ```
 
-If you are an agent on Windows, use Git Bash. Do not ask the user which
-shell to use.
+If you are an agent on Windows, follow the ordered steps under "Notes for
+Windows" before running the installer. Use Git Bash. Do not ask the user
+which shell to use.
 
 The installer:
 
@@ -164,9 +165,24 @@ Facts that an agent on Windows must know before it runs the installer:
 - Module executables are stored without `.exe`, matching the ASIMOV SDK's
   install layout. The top-level CLI remains `asimov.exe`.
 
-The install and uninstall steps are safe to run without further questions.
-If you are an agent, run `./install.sh` in Git Bash and then verify with
-`asimov --version` in Git Bash.
+### Windows installation order for agents
+
+1. Check whether Developer Mode is enabled on the machine.
+2. If Developer Mode is enabled, run `./install.sh` in Git Bash without
+   elevation. Then continue at step 5.
+3. If Developer Mode is disabled or unknown, request permission to run the
+   installer in elevated Git Bash. Explain that elevation allows native
+   symlinks. If permission is already granted, use it without asking again.
+   If permission is granted, run the installer elevated and continue at
+   step 5. Keep the same extracted directory and installation paths.
+4. Only if the user declines elevation, run `./install.sh` in Git Bash
+   without elevation.
+5. After a successful install, run `asimov --version` in Git Bash. Then
+   install the agent skill as described under "Agent skills".
+
+Do not enable Developer Mode automatically. Do not treat an unanswered
+permission request as a refusal. If the elevated installer fails, report
+the error instead of treating it as declined permission.
 
 ## Reporting problems
 
