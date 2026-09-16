@@ -1,6 +1,6 @@
-## Social module (alpha)
+## Social module
 
-The alpha bundle includes the private `social` module for social profiles and
-follower networks. Before using it, run `asimov module doc social` for
-supported URLs and examples. It is bundled locally, not discoverable through
-the public module index.
+The bundle includes the private `social` module for social media intelligence.
+It supports fetching social profiles and examining follower networks.
+Before using, run `asimov module doc social` for supported URLs and examples.
+It is bundled locally only, not discoverable through the public module index.

@@ -1,4 +1,4 @@
-# ASIMOV (alpha)
+# ASIMOV
 
 ASIMOV joins your personal knowledge — mail, messages, documents, bookmarks —
 with public data in a single queryable knowledge base.

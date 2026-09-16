@@ -38,6 +38,11 @@ type ModuleDefinition = {
 };
 
 const moduleDefinitions: Record<string, ModuleDefinition> = {
+  linkedin: {
+    repository: "asimov-systems/asimov-sandbox",
+    artifact: "asimov-linkedin-module",
+    authenticated: true,
+  },
   social: {
     repository: "asimov-systems/asimov-sandbox",
     artifact: "asimov-social-module",
@@ -226,7 +231,7 @@ async function resolveSkill(
 function parseOptions(arguments_: string[]): Options {
   const options: Options = {
     cli: "latest",
-    modules: new Map([["social", "latest"]]),
+    modules: new Map([["social", "latest"], ["linkedin", "latest"]]),
     skills: "latest",
     targets: [],
   };
@@ -237,7 +242,7 @@ function parseOptions(arguments_: string[]): Options {
 
 options:
   --cli <tag|latest>          CLI release (default: latest)
-  --modules <name/version,...> Module release tags (default: social/latest)
+  --modules <name/version,...> Module release tags (default: social/latest,linkedin/latest)
   --skills <ref|latest>       Skills tag, commit, or default-branch HEAD (default: latest)
   --target <name>             Build one target; repeat to build several (default: all)
   -h, --help                  Show this help
@@ -309,6 +314,7 @@ async function main(): Promise<void> {
   // then the uninstall notes in every bundle.
   const snippets = [];
   if (options.modules.has("social")) snippets.push("bundle/social-skill.md");
+  if (options.modules.has("linkedin")) snippets.push("bundle/linkedin-skill.md");
   snippets.push("bundle/uninstall-prompt.md");
 
   let text = decoder.decode(skill.skill.get("SKILL.md")!).trimEnd();
