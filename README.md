@@ -64,6 +64,12 @@ Use ASIMOV to look up @nasa on Instagram
 Use ASIMOV to look up asimov-platform on GitHub
 ```
 
+### LinkedIn
+
+```text
+Use ASIMOV to verify you have access to my LinkedIn connections
+```
+
 ### Luma
 
 ```text
@@ -77,6 +83,20 @@ Use ASIMOV to look up the Luma calendar at https://luma.com/asimov-sf
 ```text
 Use ASIMOV to list events at https://luma.com/asimov-sf
 ```
+
+## ⚙️ Configuration
+
+### LinkedIn Configuration
+
+1. In LinkedIn, open **Me** → **Settings & Privacy** → **Data privacy** →
+   [**Download your data**](https://www.linkedin.com/mypreferences/d/download-my-data)
+2. Make sure to request a data export that includes **Connections**,
+   (**"Download larger data archive"**) then download it when it is ready.
+3. Leave the data export in your system's Downloads folder, where it will be
+   automatically detected by this module. Both the original ZIP and an
+   autoextracted data export directory are supported by this module.
+   (In case you have multiple LinkedIn data exports downloaded, this module
+   will use the newest one.)
 
 ## 🧩 Compatibility
 
