@@ -12,8 +12,8 @@
   OpenClaw, Claude Code, etc.
 - Makes social graphs transparent, disregarding typical barriers such as
   restrictive, expensive APIs.
-- Currently supports **X** (fka Twitter), **Instagram**, **GitHub**, and
-  <sup><sub>(coming soon!)</sub></sup> many more sources.
+- Currently supports **LinkedIn**, **X** (fka Twitter), **Instagram**, **Luma**,
+  **GitHub**, and <sup><sub>(coming soon!)</sub></sup> more sources.
 
 ## ⬇️ Installation
 
@@ -25,6 +25,8 @@
 ```
 Install `asimov-alpha-{{ version }}-macos-arm.zip` from my Downloads folder
 ```
+
+<img alt="Screenshot of installation with Hermes Desktop" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-install.png?raw=true"/>
 
 <details>
 <summary>Technical details for the curious</summary>
@@ -56,6 +58,12 @@ Use ASIMOV to show who @ASIMOV_Platform follows on X
 Use ASIMOV to look up @nasa on Instagram
 ```
 
+### LinkedIn
+
+```text
+Use ASIMOV to verify you have access to my LinkedIn connections
+```
+
 ### GitHub
 
 ```text
@@ -80,14 +88,30 @@ Use ASIMOV to list upcoming events at https://luma.com/asimov-sf
 Use ASIMOV to list past events at https://luma.com/asimov-sf
 ```
 
+## ⚙️ Configuration
+
+### LinkedIn Configuration
+
+1. In LinkedIn, open **Me** → **Settings & Privacy** → **Data privacy** →
+   [**Download your data**](https://www.linkedin.com/mypreferences/d/download-my-data)
+2. Make sure to request a data export that includes **Connections**,
+   (*"Download larger data archive"*) and download it when it is ready.
+3. Leave the data export in your system's Downloads folder, where it will be
+   automatically detected by this module. Both the original ZIP and an
+   autoextracted data export directory are supported by this module.
+   (In case you have multiple LinkedIn data exports downloaded, this module
+   will use the newest one.)
+
+<p align="center"><img alt="Screenshot of requesting your data from LinkedIn" width="640" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-linkedin-request.png?raw=true"/></p>
+
 ## 🧩 Compatibility
 
-### Agents
+### Compatibility with Agents
 
 We currently test compatibility with Hermes, Claude Code, and OpenCode.
 Any comparably powerful agent harness is likely to work with ASIMOV.
 
-### Models
+### Compatibility with Models
 
 <details>
 <summary>Full model compatibility table</summary>

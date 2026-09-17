@@ -12,8 +12,8 @@
   OpenClaw, Claude Code, etc.
 - Makes social graphs transparent, disregarding typical barriers such as
   restrictive, expensive APIs.
-- Currently supports **X** (fka Twitter), **Instagram**, **GitHub**, and
-  <sup><sub>(coming soon!)</sub></sup> many more sources.
+- Currently supports **LinkedIn**, **X** (fka Twitter), **Instagram**, **Luma**,
+  **GitHub**, and <sup><sub>(coming soon!)</sub></sup> more sources.
 
 ## ⬇️ Installation
 
@@ -58,16 +58,16 @@ Use ASIMOV to show who @ASIMOV_Platform follows on X
 Use ASIMOV to look up @nasa on Instagram
 ```
 
-### GitHub
-
-```text
-Use ASIMOV to look up asimov-platform on GitHub
-```
-
 ### LinkedIn
 
 ```text
 Use ASIMOV to verify you have access to my LinkedIn connections
+```
+
+### GitHub
+
+```text
+Use ASIMOV to look up asimov-platform on GitHub
 ```
 
 ### Luma
@@ -81,7 +81,11 @@ Use ASIMOV to look up the Luma calendar at https://luma.com/asimov-sf
 ```
 
 ```text
-Use ASIMOV to list events at https://luma.com/asimov-sf
+Use ASIMOV to list upcoming events at https://luma.com/asimov-sf
+```
+
+```text
+Use ASIMOV to list past events at https://luma.com/asimov-sf
 ```
 
 ## ⚙️ Configuration
@@ -91,50 +95,52 @@ Use ASIMOV to list events at https://luma.com/asimov-sf
 1. In LinkedIn, open **Me** → **Settings & Privacy** → **Data privacy** →
    [**Download your data**](https://www.linkedin.com/mypreferences/d/download-my-data)
 2. Make sure to request a data export that includes **Connections**,
-   (**"Download larger data archive"**) then download it when it is ready.
+   (*"Download larger data archive"*) and download it when it is ready.
 3. Leave the data export in your system's Downloads folder, where it will be
    automatically detected by this module. Both the original ZIP and an
    autoextracted data export directory are supported by this module.
    (In case you have multiple LinkedIn data exports downloaded, this module
    will use the newest one.)
 
+<p align="center"><img alt="Screenshot of requesting your data from LinkedIn" width="640" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-linkedin-request.png?raw=true"/></p>
+
 ## 🧩 Compatibility
 
-### Agents
+### Compatibility with Agents
 
 We currently test compatibility with Hermes, Claude Code, and OpenCode.
 Any comparably powerful agent harness is likely to work with ASIMOV.
 
-### Models
+### Compatibility with Models
 
 <details>
 <summary>Full model compatibility table</summary>
 
-| Model                      | Compatible? | Notes                                 |
-| -------------------------- | ----------- | ------------------------------------- |
-| Anthropic Claude Fable 5.1 | ✓           |                                       |
-| Anthropic Claude Fable 5   | ✓           |                                       |
-| Anthropic Claude Haiku 4.5 | ✓           |                                       |
-| Anthropic Claude Opus 5    | ✓           |                                       |
-| Anthropic Claude Opus 4.6  | ✓           |                                       |
-| Anthropic Claude Sonnet 5  | ✓           |                                       |
-| DeepSeek V4 Flash 0731     | ✓           |                                       |
-| DeepSeek V4 Pro            | ✓           |                                       |
-| MoonshotAI Kimi K3         | ✓           |                                       |
-| OpenAI GPT-6 Astra         | ✓           |                                       |
-| OpenAI GPT-5.6 Luna        | ✓           |                                       |
-| OpenAI GPT-5.5             | ✓           |                                       |
-| OpenAI GPT-5.4             | ✓           | Hermes & Claude Code OK, OpenCode not |
-| Z.ai GLM 5.2               | ✓           |                                       |
-
+| Model  | Compatible?  | Notes |
+| ------ | ------------ | ----- |
+| Anthropic Claude Fable 5.1  | ✓  |  |
+| Anthropic Claude Fable 5  | ✓  |  |
+| Anthropic Claude Haiku 4.5  | ✓  |  |
+| Anthropic Claude Opus 5  | ✓  |  |
+| Anthropic Claude Opus 4.6  | ✓  |  |
+| Anthropic Claude Sonnet 5  | ✓  |  |
+| DeepSeek V4 Flash 0731  | ✓  |  |
+| DeepSeek V4 Pro  | ✓  |  |
+| MoonshotAI Kimi K3  | ✓  |  |
+| OpenAI GPT-6 Astra  | ✓  |  |
+| OpenAI GPT-5.6 Luna  | ✓  |  |
+| OpenAI GPT-5.5  | ✓  |  |
+| OpenAI GPT-5.4  | ✓  | Hermes & Claude Code OK, OpenCode not |
+| Z.ai GLM 5.2  | ✓  |  |
 </details>
 
 ## ⚖️ Legal
 
 > [!NOTE]
-> _This is proprietary and confidential software not for redistribution._
+> *This is proprietary and confidential software not for redistribution.*
 
 [latest zip]: https://github.com/asimov-systems/asimov-alpha/releases
+
 [ASIMOV Platform]: https://github.com/asimov-platform
 [Claude Code]: https://claude.com/product/claude-code
 [Hermes]: https://hermes-agent.nousresearch.com/desktop
