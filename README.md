@@ -36,7 +36,21 @@ TBD
 
 ## 👉 Examples
 
-Try asking your agent:
+Here follow some examples that you could try asking your agent:
+
+### LinkedIn
+
+```text
+Use ASIMOV to verify you have access to my LinkedIn connections
+```
+
+```text
+Use ASIMOV to show me my most recent LinkedIn connections
+```
+
+```text
+Use ASIMOV to show me my earliest ever LinkedIn connections
+```
 
 ### X (fka Twitter)
 
@@ -45,7 +59,7 @@ Use ASIMOV to look up @ASIMOV_Platform on X
 ```
 
 ```text
-Use ASIMOV to list @ASIMOV_Platform's followers on X
+Use ASIMOV to list ten of @ASIMOV_Platform's followers on X
 ```
 
 ```text
@@ -56,18 +70,6 @@ Use ASIMOV to show who @ASIMOV_Platform follows on X
 
 ```text
 Use ASIMOV to look up @nasa on Instagram
-```
-
-### LinkedIn
-
-```text
-Use ASIMOV to verify you have access to my LinkedIn connections
-```
-
-### GitHub
-
-```text
-Use ASIMOV to look up asimov-platform on GitHub
 ```
 
 ### Luma
@@ -81,11 +83,17 @@ Use ASIMOV to look up the Luma calendar at https://luma.com/asimov-sf
 ```
 
 ```text
-Use ASIMOV to list upcoming events at https://luma.com/asimov-sf
+Use ASIMOV to show today's events at https://luma.com/frontiertower
 ```
 
 ```text
 Use ASIMOV to list past events at https://luma.com/asimov-sf
+```
+
+### GitHub
+
+```text
+Use ASIMOV to look up @asimov-platform on GitHub
 ```
 
 ## ⚙️ Configuration
