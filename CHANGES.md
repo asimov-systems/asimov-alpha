@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.4.0 - 2026-09-21
+### Added
+- Add experience and education to LinkedIn profiles (#18)
+- Expose see-also relationships on profiles (#13)
+- Compute common mutuals (#15) (No explicit skill support yet)
+- Filter with `asimov list --jev=NOUL` (No explicit skill support yet)
+### Changed
+- Upgrade to asimov-linkedin-module 0.4.0
+- Upgrade to asimov-social-module 0.4.0
+
 ## 0.3.0 - 2026-09-16
 ### Added
 - Initial LinkedIn support: connections and basic profiles (#9)
