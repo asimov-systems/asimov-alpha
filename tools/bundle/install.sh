@@ -62,8 +62,15 @@ for path in "$src"/modules/installed/*/; do
   echo "installed module $module"
 done
 
-cli="$("$ASIMOV_CLI" --version)"
+cli="$(ASIMOV_TELEMETRY=0 "$ASIMOV_CLI" --version)"
 echo "installed $cli at $ASIMOV_CLI"
+
+public_key="$HOME/.asimov/keyring/$(id -un)"
+if [ -f "$public_key" ]; then
+  mkdir -p "$ASIMOV_ROOT/.telemetry"
+  printf '{"public_key":"%s"}\n' "$(cat "$public_key")" \
+    > "$ASIMOV_ROOT/.telemetry/custom-ids.json"
+fi
 
 # A later session may not have the archive. Keep the uninstaller next to the
 # data, so "uninstall" has an official script to run instead of a hand-written
