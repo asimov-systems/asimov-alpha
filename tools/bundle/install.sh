@@ -72,6 +72,11 @@ if [ -f "$public_key" ]; then
     > "$ASIMOV_ROOT/.telemetry/custom-ids.json"
 fi
 
+# Retired in favor of the relay module, which handles the same URLs.
+if [ -d "$ASIMOV_ROOT/modules/installed/social" ]; then
+  "$ASIMOV_CLI" module uninstall social
+fi
+
 # A later session may not have the archive. Keep the uninstaller next to the
 # data, so "uninstall" has an official script to run instead of a hand-written
 # rm -rf.

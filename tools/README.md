@@ -4,7 +4,7 @@ Run from `tools/` with Bun and dependencies installed:
 
 ```sh
 bun run bump 0.0.2
-bun run zip --cli latest --modules social/0.0.3 --skills latest
+bun run zip --cli latest --modules relay/0.1.2 --skills latest
 ```
 
 `bump` updates `VERSION` and adds a `CHANGES.md` heading. `zip` writes bundles to
@@ -20,6 +20,6 @@ branch containing those changes (the version must match its `VERSION`):
 gh workflow run release.yml --ref master \
   -f version=0.0.2 \
   -f cli=latest \
-  -f modules=social/0.0.3 \
+  -f modules=relay/0.1.2 \
   -f skills=latest
 ```
