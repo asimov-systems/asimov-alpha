@@ -17,7 +17,7 @@ on:
       modules:
         description: "Comma-separated module release tags (name/version or name/latest)"
         required: true
-        default: relay/latest,linkedin/latest
+        default: relay/latest,linkedin/latest,attio/latest
         type: string
       skills:
         description: "skills tag/commit, or latest for default-branch HEAD"
@@ -70,7 +70,7 @@ jobs:
         env:
           SANDBOX_RELEASES_TOKEN: ${{ secrets.SANDBOX_RELEASES_TOKEN }}
           CLI_REF: ${{ inputs.cli || 'latest' }}
-          MODULE_REFS: ${{ inputs.modules || 'relay/latest,linkedin/latest' }}
+          MODULE_REFS: ${{ inputs.modules || 'relay/latest,linkedin/latest,attio/latest' }}
           SKILLS_REF: ${{ inputs.skills || 'latest' }}
         run: |
           bun run zip \

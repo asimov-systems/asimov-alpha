@@ -4,7 +4,7 @@ Run from `tools/` with Bun and dependencies installed:
 
 ```sh
 bun run bump 0.0.2
-bun run zip --cli latest --modules relay/0.1.2 --skills latest
+bun run zip --cli latest --modules relay/0.1.2,linkedin/0.4.2,attio/0.1.0 --skills latest
 ```
 
 `bump` updates `VERSION` and adds a `CHANGES.md` heading. `zip` writes bundles to
@@ -12,6 +12,7 @@ bun run zip --cli latest --modules relay/0.1.2 --skills latest
 `asimov-systems/asimov-sandbox` releases. Module selectors are comma-separated
 `name/version` tags: the prefix selects the module, and the entire tag is used verbatim.
 `name/latest` selects that module's most recently published non-draft, non-prerelease release.
+By default, bundles include the latest releases of `relay`, `linkedin`, and `attio`.
 
 After committing and pushing the version and changelog, you can trigger a release on the
 branch containing those changes (the version must match its `VERSION`):
@@ -20,6 +21,6 @@ branch containing those changes (the version must match its `VERSION`):
 gh workflow run release.yml --ref master \
   -f version=0.0.2 \
   -f cli=latest \
-  -f modules=relay/0.1.2 \
+  -f modules=relay/0.1.2,linkedin/0.4.2,attio/0.1.0 \
   -f skills=latest
 ```

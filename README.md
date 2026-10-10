@@ -13,7 +13,7 @@
 - Makes social graphs transparent, disregarding typical barriers such as
   restrictive, expensive APIs.
 - Currently supports **LinkedIn**, **X** (fka Twitter), **Instagram**, **Luma**,
-  **GitHub**, and <sup><sub>(coming soon!)</sub></sup> more sources.
+  **GitHub**, **Attio**, and <sup><sub>(coming soon!)</sub></sup> more sources.
 
 ## ⬇️ Installation
 
@@ -96,6 +96,16 @@ Use ASIMOV to list past events at https://luma.com/asimov-sf
 Use ASIMOV to look up @asimov-platform on GitHub
 ```
 
+### Attio
+
+```text
+Use ASIMOV to verify you have access to my Attio workspace export
+```
+
+```text
+Use ASIMOV to list ten people and companies from my Attio workspace export, sorted by name
+```
+
 ## ⚙️ Configuration
 
 ### LinkedIn Configuration
@@ -111,6 +121,20 @@ Use ASIMOV to look up @asimov-platform on GitHub
    will use the newest one.)
 
 <p align="center"><img alt="Screenshot of requesting your data from LinkedIn" width="640" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-linkedin-request.png?raw=true"/></p>
+
+### Attio Configuration
+
+1. Download a workspace export from Attio (`export_UUID.zip`).
+2. Leave the export in your system's Downloads folder, where it will be
+   automatically detected by this module. Both the original ZIP and an
+   extracted export directory are supported. If multiple exports are present,
+   the module uses the newest one.
+
+The module reads people and companies from the export. To try it directly:
+
+```sh
+asimov list --sort=name --limit=10 https://app.attio.com
+```
 
 ## 🧩 Compatibility
 

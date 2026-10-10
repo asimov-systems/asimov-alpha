@@ -38,6 +38,11 @@ type ModuleDefinition = {
 };
 
 const moduleDefinitions: Record<string, ModuleDefinition> = {
+  attio: {
+    repository: "asimov-systems/asimov-sandbox",
+    artifact: "asimov-attio-module",
+    authenticated: true,
+  },
   linkedin: {
     repository: "asimov-systems/asimov-sandbox",
     artifact: "asimov-linkedin-module",
@@ -231,7 +236,7 @@ async function resolveSkill(
 function parseOptions(arguments_: string[]): Options {
   const options: Options = {
     cli: "latest",
-    modules: new Map([["relay", "latest"], ["linkedin", "latest"]]),
+    modules: new Map([["relay", "latest"], ["linkedin", "latest"], ["attio", "latest"]]),
     skills: "latest",
     targets: [],
   };
@@ -242,7 +247,7 @@ function parseOptions(arguments_: string[]): Options {
 
 options:
   --cli <tag|latest>          CLI release (default: latest)
-  --modules <name/version,...> Module release tags (default: relay/latest,linkedin/latest)
+  --modules <name/version,...> Module release tags (default: relay/latest,linkedin/latest,attio/latest)
   --skills <ref|latest>       Skills tag, commit, or default-branch HEAD (default: latest)
   --target <name>             Build one target; repeat to build several (default: all)
   -h, --help                  Show this help
@@ -315,6 +320,7 @@ async function main(): Promise<void> {
   const snippets = [];
   if (options.modules.has("relay")) snippets.push("bundle/relay-skill.md");
   if (options.modules.has("linkedin")) snippets.push("bundle/linkedin-skill.md");
+  if (options.modules.has("attio")) snippets.push("bundle/attio-skill.md");
   snippets.push("bundle/uninstall-prompt.md");
 
   let text = decoder.decode(skill.skill.get("SKILL.md")!).trimEnd();
