@@ -108,33 +108,38 @@ Use ASIMOV to list ten people and companies from my Attio workspace export, sort
 
 ## ⚙️ Configuration
 
-### LinkedIn Configuration
+### LinkedIn Configuration (2 minutes)
+
+To give ASIMOV access to your LinkedIn connections, follow these easy steps:
 
 1. In LinkedIn, open **Me** → **Settings & Privacy** → **Data privacy** →
    [**Download your data**](https://www.linkedin.com/mypreferences/d/download-my-data)
 2. Make sure to request a data export that includes **Connections**,
    (*"Download larger data archive"*) and download it when it is ready.
-3. Leave the data export in your system's Downloads folder, where it will be
-   automatically detected by this module. Both the original ZIP and an
-   autoextracted data export directory are supported by this module.
-   (In case you have multiple LinkedIn data exports downloaded, this module
+3. Leave the export ZIP in your system's Downloads folder, where it will be
+   automatically detected by ASIMOV. Both the original ZIP and an
+   autoextracted export directory are supported.
+   (In case you have multiple LinkedIn data exports downloaded, ASIMOV
    will use the newest one.)
 
 <p align="center"><img alt="Screenshot of requesting your data from LinkedIn" width="640" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-linkedin-request.png?raw=true"/></p>
 
-### Attio Configuration
+### Attio Configuration (2 minutes)
 
-1. Download a workspace export from Attio (`export_UUID.zip`).
-2. Leave the export in your system's Downloads folder, where it will be
-   automatically detected by this module. Both the original ZIP and an
-   extracted export directory are supported. If multiple exports are present,
-   the module uses the newest one.
+To give ASIMOV access to your Attio CRM workspace, follow these easy steps:
 
-The module reads people and companies from the export. To try it directly:
+1. In [Attio](https://app.attio.com), open **Workspace**
+   → **Workspace settings** → **General**.
+2. Click the **Start new export** button and wait for the export to complete.
+3. Download the workspace export using the download icon. The file is named
+   `export_UUID.zip`, where UUID is a random string.
+2. Leave the export ZIP in your system's Downloads folder, where it will be
+   automatically detected by ASIMOV. Both the original ZIP and an
+   autoextracted export directory are supported.
+   (In case you have multiple LinkedIn data exports downloaded, ASIMOV
+   will use the newest one.)
 
-```sh
-asimov list --sort=name --limit=10 https://app.attio.com
-```
+<p align="center"><img alt="Screenshot of exporting your workspace data from Attio" width="640" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-attio-export.png?raw=true"/></p>
 
 ## 🧩 Compatibility
 
