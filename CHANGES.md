@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.6.0 - 2026-10-11
 ### Added
 - Attio: Read people and companies from local workspace exports.
+### Changed
+- Bundle asimov-attio-module 0.1.1
 
 ## 0.5.1 - 2026-10-10
 ### Fixed
@@ -22,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.4.2 - 2026-10-02
 ### Added
-- Optional usage telemetry, disabled with `asimov configure telemetry disable`
+- Optional usage telemetry, disable with `asimov configure telemetry disable`
 ### Changed
 - Upgrade to asimov-cli 25.6.1
 
