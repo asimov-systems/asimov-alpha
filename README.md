@@ -8,12 +8,15 @@
 
 - An exclusive private distribution of [ASIMOV Platform] specialized for
   social media intelligence.
-- Plugs into your current agent harness as a sidecar: verified with Hermes,
-  OpenClaw, Claude Code, etc.
+- Plugs into your personal agent as a sidecar: Hermes, OpenClaw, Claude Code,
+  ChatGPT Dots, etc.
 - Makes social graphs transparent, disregarding typical barriers such as
   restrictive, expensive APIs.
 - Currently supports **LinkedIn**, **X** (fka Twitter), **Instagram**, **Luma**,
-  **GitHub**, **Attio**, and <sup><sub>(coming soon!)</sub></sup> more sources.
+  **GitHub**, and <sup><sub>(coming soon!)</sub></sup> more sources.
+- Enriches the aforementioned public data with your own personal and/or
+  organizational confidential contacts data locally, including your **Attio**
+  CRM data.
 
 ## ⬇️ Installation
 
@@ -28,17 +31,14 @@ Install `asimov-alpha-0.5.1-macos-arm.zip` from my Downloads folder
 
 <img alt="Screenshot of installation with Hermes Desktop" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-install.png?raw=true"/>
 
-<details>
-<summary>Technical details for the curious</summary>
-
-TBD
-</details>
-
 ## 👉 Examples
 
 Here follow some examples that you could try asking your agent:
 
-### LinkedIn
+### Socials
+
+<details>
+<summary>LinkedIn</summary>
 
 ```text
 Use ASIMOV to verify you have access to my LinkedIn connections
@@ -51,8 +51,10 @@ Use ASIMOV to show me my most recent LinkedIn connections
 ```text
 Use ASIMOV to show me my earliest ever LinkedIn connections
 ```
+</details>
 
-### X (fka Twitter)
+<details>
+<summary>X (fka Twitter)</summary>
 
 ```text
 Use ASIMOV to look up @ASIMOV_Platform on X
@@ -65,14 +67,18 @@ Use ASIMOV to list ten of @ASIMOV_Platform's followers on X
 ```text
 Use ASIMOV to show who @ASIMOV_Platform follows on X
 ```
+</details>
 
-### Instagram
+<details>
+<summary>Instagram</summary>
 
 ```text
 Use ASIMOV to look up @nasa on Instagram
 ```
+</details>
 
-### Luma
+<details>
+<summary>Luma</summary>
 
 ```text
 Use ASIMOV to look up https://luma.com/user/arto
@@ -89,14 +95,20 @@ Use ASIMOV to show today's events at https://luma.com/frontiertower
 ```text
 Use ASIMOV to list past events at https://luma.com/asimov-sf
 ```
+</details>
 
-### GitHub
+<details>
+<summary>GitHub</summary>
 
 ```text
 Use ASIMOV to look up @asimov-platform on GitHub
 ```
+</details>
 
-### Attio
+### Contacts
+
+<details>
+<summary>Attio</summary>
 
 ```text
 Use ASIMOV to verify you have access to my Attio workspace export
@@ -105,6 +117,7 @@ Use ASIMOV to verify you have access to my Attio workspace export
 ```text
 Use ASIMOV to list ten people and companies from my Attio workspace export, sorted by name
 ```
+</details>
 
 ## ⚙️ Configuration
 
