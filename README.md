@@ -4,6 +4,9 @@
 <a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.6.0/asimov-alpha-0.6.0-windows-x64.zip"><img width="220" alt="Download for Windows" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-windows.png?raw=true"/></a>
 <a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.6.0/asimov-alpha-0.6.0-linux-x86-gnu.zip"><img width="220" alt="Download for Linux" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-linux.png?raw=true"/></a>
 
+**Your personal intelligence layer.**
+Install once--use with any agent, any gateway, any provider, any model.
+
 ## ✨ Features
 
 - An exclusive private distribution of [ASIMOV Platform] specialized for
@@ -33,7 +36,7 @@ Install `asimov-alpha-0.6.0-macos-arm.zip` from my Downloads folder
 
 <img alt="Screenshot of installation with Hermes Desktop" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-install.png?raw=true"/>
 
-## 💡 Tutorial
+## 💡 Usage
 
 In most agents, you can type `/asimov` to activate the ASIMOV skill and then
 ask it to do things. For example:
@@ -42,16 +45,33 @@ ask it to do things. For example:
 /asimov What can ASIMOV do for me?
 ```
 
-<img alt="Screenshot of asking: /asimov What can ASIMOV do for me?" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-overview.png?raw=true"/>
+<img alt="Screenshot of asking: '/asimov What can ASIMOV do for me?' in Hermes Desktop" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-overview.png?raw=true"/>
 
-In case that feels overly technical, you could also just preface your request
+In case that feels overly geeky, you can also just preface your request
 with *"Use ASIMOV to..."* or *"Using ASIMOV, ..."* and similar phrasings.
 That will prompt your agent to look through its skills, locating the `/asimov`
 skill and activating it.
 
+## 🚀 Getting Started
+
+Validate your installation by telling your agent to memorize your socials
+handles and ask it to use ASIMOV to show your profiles, and then proceed to the
+examples further below:
+
+```text
+My X account is @bendiken, my Instagram account is @arto.bendiken, my LinkedIn account is @arto.
+Use ASIMOV to show my profiles!
+```
+
+<img alt="Screenshot of self-identification in Hermes Desktop" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-identity.png?raw=true"/>
+
+If you want to explore your LinkedIn connections, see the 2-minute
+[LinkedIn configuration](#linkedin-configuration-2-minutes) further below.
+
 ## 👉 Examples
 
-Here are some examples that you could try asking your agent after installation:
+Here are some examples that you could try asking your agent after completing
+the installation and getting started:
 
 ### Socials
 
