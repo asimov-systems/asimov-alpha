@@ -5,15 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.6.1 - 2026-10-12
+### Fixed
+- Avoid keychain access for commands that only need the public key
+### Changed
+- Upgrade to asimov-cli 25.7.3 and asimov-sdk 25.7.3
+
 ## 0.6.0 - 2026-10-11
 ### Added
-- Attio: Read people and companies from local workspace exports.
+- Attio: Read people and companies from local workspace exports
 ### Changed
 - Bundle asimov-attio-module 0.1.1
 
 ## 0.5.1 - 2026-10-10
 ### Fixed
-- LinkedIn: Detect the user's profile link from the data export.
+- LinkedIn: Detect the user's profile link from the data export
 ### Changed
 - Upgrade to asimov-linkedin-module 0.4.2
 
