@@ -1,0 +1,213 @@
+name: test
+
+# Builds the artifact, then asks each agent harness over ACP to install ASIMOV
+# from it and to uninstall it (in new session). Each step must finish without a
+# question to the user. See scripts/acp-drive.py and scripts/assert-asimov.py.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - tools/**
+      - .github/workflows/test.yml
+  workflow_dispatch:
+
+env:
+  MODELS: ${{ vars.OPENROUTER_MODELS || '["anthropic/claude-opus-4.6","openai/gpt-5.5","moonshotai/kimi-k3","z-ai/glm-5.2","deepseek/deepseek-v4-pro"]' }}
+  INSTALL_PROMPT: "Install ASIMOV from {path}"
+  UNINSTALL_PROMPT: "Uninstall ASIMOV"
+  USE_PROMPT: "Use ASIMOV to fetch the real name of GitHub user @imunproductive"
+  USE_EXPECT: "Yurii Antoniuk"
+  USE_EXPECT_TOOL: 'asimov\s+fetch'
+  # Models run at once per harness job. OpenRouter rejects requests (HTTP 402,
+  # in_flight_budget_exhausted) when the possible cost of all in-flight requests
+  # exceeds the account's credits. Three harness jobs times this is the total.
+  MAX_PARALLEL: ${{ vars.OPENROUTER_MAX_PARALLEL || 1 }}
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.prepare.outputs.version }}
+      models: ${{ steps.prepare.outputs.models }}
+      max_parallel: ${{ steps.prepare.outputs.max_parallel }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # A matrix cannot read the env context, so these go through job outputs.
+      - id: prepare
+        run: |
+          echo "version=$(tr -d '[:space:]' < VERSION)" >> "$GITHUB_OUTPUT"
+          echo "models=$MODELS" >> "$GITHUB_OUTPUT"
+          echo "max_parallel=$MAX_PARALLEL" >> "$GITHUB_OUTPUT"
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.1
+
+      - name: Install packager dependency
+        working-directory: tools
+        run: bun install --frozen-lockfile
+
+      - name: Create bundles
+        working-directory: tools
+        env:
+          SANDBOX_RELEASES_TOKEN: ${{ secrets.SANDBOX_RELEASES_TOKEN }}
+        run: |
+          bun run zip \
+            --cli "latest" \
+            --modules "social/latest" \
+            --skills "latest" \
+            --target linux-x86-gnu
+      - uses: actions/upload-artifact@v4
+        with:
+          name: asimov-zip
+          path: dist/*.zip
+          if-no-files-found: error
+
+  hermes:
+    needs: build
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(needs.build.outputs.max_parallel) }}
+      matrix:
+        model: ${{ fromJSON(needs.build.outputs.models) }}
+    env:
+      VERSION: ${{ needs.build.outputs.version }}
+      MODEL: ${{ matrix.model }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: asimov-zip
+          path: ${{ runner.temp }}/asimov
+      - run: |
+          mkdir -p "$RUNNER_TEMP/work"
+          zip="$RUNNER_TEMP/asimov/asimov-alpha-$VERSION-linux-x86-gnu.zip"
+          echo "INSTALL_PROMPT=${INSTALL_PROMPT//\{path\}/$zip}" >> "$GITHUB_ENV"
+          echo "ZIP=$zip" >> "$GITHUB_ENV"
+      - name: Install Hermes headless
+        run: |
+          curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --skip-setup --skip-browser --skip-computer-use --non-interactive
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.local/bin:$PATH"
+          # The installer's [all] extra includes acp. The fallback covers the installer's bare-install tier.
+          hermes acp --check || (cd "$HOME/.hermes/hermes-agent" && "$HOME/.hermes/bin/uv" pip install -e '.[acp]' && hermes acp --check)
+      - name: Configure OpenRouter
+        run: |
+          mkdir -p "$HOME/.hermes"
+          printf 'OPENROUTER_API_KEY=%s\n' "${{ secrets.OPENROUTER_KEY }}" > "$HOME/.hermes/.env"
+          printf 'model:\n  provider: openrouter\n  default: %s\n' "$MODEL" > "$HOME/.hermes/config.yaml"
+      - name: Install ASIMOV over ACP
+        run: python3 tools/scripts/acp-drive.py --cwd "$RUNNER_TEMP/work" --prompt "$INSTALL_PROMPT" -- hermes acp
+      - name: Assert installed
+        run: python3 tools/scripts/assert-asimov.py installed "$HOME/.hermes/skills"
+      - name: Use ASIMOV over ACP
+        run: python3 tools/scripts/acp-drive.py --cwd "$RUNNER_TEMP/work" --prompt "$USE_PROMPT" --expect "$USE_EXPECT" --expect-tool "$USE_EXPECT_TOOL" -- hermes acp
+      - name: Uninstall ASIMOV over ACP
+        run: python3 tools/scripts/acp-drive.py --cwd "$RUNNER_TEMP/work" --prompt "$UNINSTALL_PROMPT" -- hermes acp
+      - name: Assert uninstalled
+        run: python3 tools/scripts/assert-asimov.py uninstalled "$HOME/.hermes/skills"
+
+  claude-code:
+    needs: build
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(needs.build.outputs.max_parallel) }}
+      matrix:
+        model: ${{ fromJSON(needs.build.outputs.models) }}
+        # DeepSeek through the Anthropic-compatible endpoint ends turns with no
+        # text after a tool result. Twice in three runs; passes on the other harnesses.
+        exclude:
+          - model: deepseek/deepseek-v4-pro
+    env:
+      VERSION: ${{ needs.build.outputs.version }}
+      MODEL: ${{ matrix.model }}
+      ANTHROPIC_BASE_URL: https://openrouter.ai/api
+      ANTHROPIC_AUTH_TOKEN: ${{ secrets.OPENROUTER_KEY }}
+      ANTHROPIC_API_KEY: ""
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: asimov-zip
+          path: ${{ runner.temp }}/asimov
+      - run: |
+          mkdir -p "$RUNNER_TEMP/work"
+          zip="$RUNNER_TEMP/asimov/asimov-alpha-$VERSION-linux-x86-gnu.zip"
+          echo "INSTALL_PROMPT=${INSTALL_PROMPT//\{path\}/$zip}" >> "$GITHUB_ENV"
+          echo "ZIP=$zip" >> "$GITHUB_ENV"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Claude Code ACP adapter headless
+        run: |
+          npm install -g @agentclientprotocol/claude-agent-acp
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          mkdir -p "$HOME/.claude"
+          # Allow the tools the install needs so Claude Code does not stop for permission.
+          echo '{"permissions":{"allow":["Bash","Read","Write","Edit","Glob","Grep"]}}' > "$HOME/.claude/settings.json"
+          echo "ANTHROPIC_MODEL=$MODEL" >> "$GITHUB_ENV"
+      - name: Install ASIMOV over ACP
+        run: python3 tools/scripts/acp-drive.py --cwd "$RUNNER_TEMP/work" --prompt "$INSTALL_PROMPT" -- claude-agent-acp
+      - name: Assert installed
+        run: python3 tools/scripts/assert-asimov.py installed "$HOME/.claude/skills" "$RUNNER_TEMP/work/.claude/skills"
+      - name: Use ASIMOV over ACP
+        run: python3 tools/scripts/acp-drive.py --cwd "$RUNNER_TEMP/work" --prompt "$USE_PROMPT" --expect "$USE_EXPECT" --expect-tool "$USE_EXPECT_TOOL" -- claude-agent-acp
+      - name: Uninstall ASIMOV over ACP
+        run: python3 tools/scripts/acp-drive.py --cwd "$RUNNER_TEMP/work" --prompt "$UNINSTALL_PROMPT" -- claude-agent-acp
+      - name: Assert uninstalled
+        run: python3 tools/scripts/assert-asimov.py uninstalled "$HOME/.claude/skills" "$RUNNER_TEMP/work/.claude/skills"
+
+  opencode:
+    needs: build
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(needs.build.outputs.max_parallel) }}
+      matrix:
+        model: ${{ fromJSON(needs.build.outputs.models) }}
+    env:
+      VERSION: ${{ needs.build.outputs.version }}
+      MODEL: ${{ matrix.model }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_KEY }}
+      # OpenCode silently falls back to a free built-in model when the
+      # configured provider has no credentials. The driver fails the turn
+      # unless the session reports this model.
+      ACP_EXPECT_MODEL: ${{ matrix.model }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: asimov-zip
+          path: ${{ runner.temp }}/asimov
+      - run: |
+          mkdir -p "$RUNNER_TEMP/work"
+          zip="$RUNNER_TEMP/asimov/asimov-alpha-$VERSION-linux-x86-gnu.zip"
+          echo "INSTALL_PROMPT=${INSTALL_PROMPT//\{path\}/$zip}" >> "$GITHUB_ENV"
+          echo "ZIP=$zip" >> "$GITHUB_ENV"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install OpenCode headless
+        run: |
+          npm install -g opencode-ai
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          opencode --version
+          # Model and permissions come from inline config so no file is necessary.
+          echo "OPENCODE_CONFIG_CONTENT={\"model\":\"openrouter/$MODEL\",\"permission\":\"allow\"}" >> "$GITHUB_ENV"
+      - name: Install ASIMOV over ACP
+        run: python3 tools/scripts/acp-drive.py --cwd "$RUNNER_TEMP/work" --prompt "$INSTALL_PROMPT" -- opencode acp
+      - name: Assert installed
+        run: python3 tools/scripts/assert-asimov.py installed "$HOME/.config/opencode/skills" "$HOME/.claude/skills" "$HOME/.agents/skills" "$RUNNER_TEMP/work/.opencode/skills" "$RUNNER_TEMP/work/.claude/skills"
+      - name: Use ASIMOV over ACP
+        run: python3 tools/scripts/acp-drive.py --cwd "$RUNNER_TEMP/work" --prompt "$USE_PROMPT" --expect "$USE_EXPECT" --expect-tool "$USE_EXPECT_TOOL" -- opencode acp
+      - name: Uninstall ASIMOV over ACP
+        run: python3 tools/scripts/acp-drive.py --cwd "$RUNNER_TEMP/work" --prompt "$UNINSTALL_PROMPT" -- opencode acp
+      - name: Assert uninstalled
+        run: python3 tools/scripts/assert-asimov.py uninstalled "$HOME/.config/opencode/skills" "$HOME/.claude/skills" "$HOME/.agents/skills" "$RUNNER_TEMP/work/.opencode/skills" "$RUNNER_TEMP/work/.claude/skills"
