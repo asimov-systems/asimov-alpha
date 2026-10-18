@@ -48,11 +48,6 @@ const moduleDefinitions: Record<string, ModuleDefinition> = {
     artifact: "asimov-linkedin-module",
     authenticated: true,
   },
-  relay: {
-    repository: "asimov-systems/asimov-sandbox",
-    artifact: "asimov-relay-module",
-    authenticated: true,
-  },
 };
 
 function sha256(data: Uint8Array): string {
@@ -236,7 +231,7 @@ async function resolveSkill(
 function parseOptions(arguments_: string[]): Options {
   const options: Options = {
     cli: "latest",
-    modules: new Map([["relay", "latest"], ["linkedin", "latest"], ["attio", "latest"]]),
+    modules: new Map([["linkedin", "latest"], ["attio", "latest"]]),
     skills: "latest",
     targets: [],
   };
@@ -247,7 +242,7 @@ function parseOptions(arguments_: string[]): Options {
 
 options:
   --cli <tag|latest>          CLI release (default: latest)
-  --modules <name/version,...> Module release tags (default: relay/latest,linkedin/latest,attio/latest)
+  --modules <name/version,...> Module release tags (default: linkedin/latest,attio/latest)
   --skills <ref|latest>       Skills tag, commit, or default-branch HEAD (default: latest)
   --target <name>             Build one target; repeat to build several (default: all)
   -h, --help                  Show this help
@@ -318,7 +313,6 @@ async function main(): Promise<void> {
   // Appended to the upstream SKILL.md: module notes when the module ships,
   // then the uninstall notes in every bundle.
   const snippets = [];
-  if (options.modules.has("relay")) snippets.push("bundle/relay-skill.md");
   if (options.modules.has("linkedin")) snippets.push("bundle/linkedin-skill.md");
   if (options.modules.has("attio")) snippets.push("bundle/attio-skill.md");
   snippets.push("bundle/uninstall-prompt.md");

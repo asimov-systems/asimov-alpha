@@ -72,7 +72,10 @@ if [ -f "$public_key" ]; then
     > "$ASIMOV_ROOT/.telemetry/custom-ids.json"
 fi
 
-# Retired in favor of the relay module, which handles the same URLs.
+# These modules have been retired and should no longer remain installed:
+if [ -d "$ASIMOV_ROOT/modules/installed/relay" ]; then
+  "$ASIMOV_CLI" module uninstall relay
+fi
 if [ -d "$ASIMOV_ROOT/modules/installed/social" ]; then
   "$ASIMOV_CLI" module uninstall social
 fi
