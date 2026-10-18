@@ -1,8 +1,8 @@
 # ASIMOV Alpha
 
-<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.6.1/asimov-alpha-0.6.1-macos-arm.zip"><img width="220" alt="Download for macOS" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-macos.png?raw=true"/></a>
-<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.6.1/asimov-alpha-0.6.1-windows-x64.zip"><img width="220" alt="Download for Windows" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-windows.png?raw=true"/></a>
-<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.6.1/asimov-alpha-0.6.1-linux-x86-gnu.zip"><img width="220" alt="Download for Linux" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-linux.png?raw=true"/></a>
+<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.7.0/asimov-alpha-0.7.0-macos-arm.zip"><img width="220" alt="Download for macOS" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-macos.png?raw=true"/></a>
+<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.7.0/asimov-alpha-0.7.0-windows-x64.zip"><img width="220" alt="Download for Windows" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-windows.png?raw=true"/></a>
+<a href="https://github.com/asimov-systems/asimov-alpha/releases/download/0.7.0/asimov-alpha-0.7.0-linux-x86-gnu.zip"><img width="220" alt="Download for Linux" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/download-linux.png?raw=true"/></a>
 
 **Your personal intelligence layer.**
 Install once, then use with any agent, any gateway, any provider, any model.
@@ -49,7 +49,7 @@ To install from a downloaded release tarball or zip file, follow these steps:
    to unzip the file and install the contents:
 
 ```text
-Install `asimov-alpha-0.6.1-macos-arm.zip` from my Downloads folder
+Install `asimov-alpha-0.7.0-macos-arm.zip` from my Downloads folder
 ```
 </details>
 

@@ -5,14 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
-### Fixed
-- Require refreshing the bundled agent skill on upgrades and reinstalls
+## 0.7.0 - 2026-10-18
+### Added
+- Support fetching multiple URLs in remote requests to minimize roundtrips
+- Improve token efficiency by selecting fetch/list output properties with
+  `--json=FIELDS`, applied after `--jev` but before `--jq` filters/transforms
+- Fall back to `ASIMOV_RELAY_URL` for `asimov fetch` and `asimov list`
+  when no enabled module handles the URL, with HTTP requests signed by the CLI
+- Support SOCKS proxies with proxy-side DNS via `socks5h://` relay URLs
+- Load `$ASIMOV_ROOT/.env` first prior to the nearest `.env` file, if any
+- Automatically discover & cache remote public keys to verify signed responses
 ### Changed
 - Upgrade to asimov-cli 25.8.1 and asimov-sdk 25.8.0
-- Create `$ASIMOV_ROOT/.env` on installation
+- Create `$ASIMOV_ROOT/.env` on install/upgrade to configure `ASIMOV_RELAY_URL`
+- Use the platform's TLS certificate verification for remote connections, cloud
+  services, and module management; Linux remote connections use system or
+  explicitly configured CA certificates
+- Default remote requests to 10-second connection and 60-second response-header
+  and body-idle timeouts, with no total time limit for progressing streams
+### Fixed
+- Honor native HTTP proxy settings on macOS and Windows, including macOS proxy
+  bypass lists and simple-hostname exclusions
+- Preserve explicit system DNS resolution for remote requests
+- Require refreshing the bundled agent skill on upgrades and reinstalls
 ### Removed
-- Remove asimov-relay-module from the bundled modules
+- Remove the obsolete asimov-relay-module from the bundled modules
 
 ## 0.6.1 - 2026-10-12
 ### Fixed
