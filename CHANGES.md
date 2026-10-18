@@ -8,8 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Changed
 - Upgrade to asimov-cli 25.8.1 and asimov-sdk 25.8.0
+- Create `$ASIMOV_ROOT/.env` on installation
 ### Removed
-- Remove asimov-relay-module from bundles
+- Remove asimov-relay-module from the bundled modules
 
 ## 0.6.1 - 2026-10-12
 ### Fixed

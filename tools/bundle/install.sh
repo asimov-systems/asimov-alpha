@@ -22,6 +22,10 @@ ASIMOV_CLI="$BIN_DIR/asimov$suffix"
 mkdir -p "$ASIMOV_ROOT/modules/installed" "$ASIMOV_ROOT/modules/enabled" \
   "$ASIMOV_ROOT/libexec" "$ASIMOV_ROOT/snapshots" "$BIN_DIR"
 
+if [ ! -e "$ASIMOV_ROOT/.env" ]; then
+  printf '%s\n' 'ASIMOV_RELAY_URL=https://relay.alpha.asimov.systems' > "$ASIMOV_ROOT/.env"
+fi
+
 for path in "$src"/modules/installed/*/; do
   module="$(basename "$path")"
   [ -d "$ASIMOV_ROOT/modules/installed/$module" ] || continue
