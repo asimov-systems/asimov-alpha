@@ -99,9 +99,12 @@ esac
 # Skills are the agent's job (see README.md, "Agent skills"). Say so where
 # an agent will see it: in the output of the script it just ran.
 echo
-echo "The agent skill is part of ASIMOV. This script does not install it, because"
-echo "only the agent knows where its harness keeps skills. Without the skill the"
-echo "install is incomplete: the CLI is present, but the agent cannot use it."
-echo "  copy $src/skills/asimov to <skills-root>/asimov/"
+echo "The agent skill is part of ASIMOV. This script does not install or update it;"
+echo "the agent must do so using its harness's skills root."
+echo "On every install, upgrade, or reinstall, copy this bundle's skill to"
+echo "<skills-root>/asimov/, even if SKILL.md already exists:"
+echo "  copy $src/skills/asimov/ to <skills-root>/asimov/, replacing the entire existing skill directory"
+echo "  include all supporting files and remove obsolete files from the old skill"
+echo "  verify the installed skill matches this bundle before reporting completion"
 echo "  skills-root: Claude Code ~/.claude/skills, Hermes ~/.hermes/skills, OpenCode ~/.config/opencode/skills"
 echo "  If you are an agent, this step is yours. See README.md, section 'Agent skills'."

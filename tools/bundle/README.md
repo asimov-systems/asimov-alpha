@@ -36,10 +36,12 @@ a one-command override does not configure future CLI invocations. On Windows,
 `ASIMOV_ROOT` can be a Windows path or a Git Bash path when running these scripts.
 Installing the agent skills is a separate step, described below.
 
-Re-running `./install.sh` upgrades in place and enables every bundled module,
-including any you previously disabled. Modules not included in this bundle are
-not enabled by the installer. If installation fails, fix the reported problem
-and rerun the script.
+Re-running `./install.sh` upgrades the CLI and bundled modules in place and
+enables every bundled module, including any you previously disabled. After
+every upgrade or reinstall, also replace the installed ASIMOV skill with the
+new bundled copy as described under "Agent skills". Modules not included in
+this bundle are not enabled by the installer. If installation fails, fix the
+reported problem and rerun the script.
 
 ## Verify
 
@@ -72,17 +74,24 @@ install, and configure modules and to retrieve knowledge with them. Without
 them an agent has the CLI but no knowledge of how to drive it.
 
 They live in this archive under `asimov/skills/`. `install.sh` ignores them
-entirely and writes nothing to any harness's configuration. **Installing them
-is a deliberate, separate step** — take it now, or the CLI will be there but
-your agent will not know how to use it.
+entirely and writes nothing to any harness's configuration. **Installing or
+updating them is a required, separate step on every install, upgrade, or
+reinstall.**
 
-### If you are an agent installing ASIMOV at the user's request
+### If you are an agent installing or upgrading ASIMOV at the user's request
 
-The user asking you to install ASIMOV includes installing the agent skill.
-Copy the skill directories from `asimov/skills/` into your harness's skills
-root as part of the install — this is an intended, required step, not an
-optional one. The skill teaches you how to drive the CLI you just installed;
-without it the install is incomplete.
+The user asking you to install or upgrade ASIMOV includes installing or
+updating the agent skill. After `./install.sh` succeeds, copy the skill
+directories from `asimov/skills/` into your harness's skills root as part of
+every install, upgrade, or reinstall.
+
+If `<skills-root>/asimov/` already exists, replace the entire directory with
+`asimov/skills/asimov/` from the new archive, including `SKILL.md` and supporting
+files. Remove obsolete files from the previous skill; do not skip this step
+because `SKILL.md` already exists.
+
+Before reporting completion, verify that the installed skill files match the
+bundled copy, then read the updated `SKILL.md` for the current session.
 
 Common skill root directories:
 
@@ -107,11 +116,12 @@ skills CLI, which knows 70+ harnesses and picks the right path:
 npx skills add asimov-platform/skills
 ```
 
-That fetches from the network rather than using the bundled copy, so it needs
-connectivity, and it may install a newer version than the one in this archive.
+That fetches the upstream skill and needs connectivity. Finish by replacing
+the installed `asimov` directory with this archive's bundled copy, which
+includes Alpha-specific module and uninstall instructions.
 
-Some harnesses only pick up new skills on their next start. If the skill does
-not appear, restart before concluding something went wrong.
+Some harnesses only pick up new or updated skills on their next start. If the
+updated skill is not available, restart before concluding something went wrong.
 
 Upstream, and installable independently, at
 <https://github.com/asimov-platform/skills>.
@@ -187,8 +197,9 @@ Check that Git Bash is available before continuing.
    step 5. Keep the same extracted directory and installation paths.
 4. Only if the user declines elevation, run `./install.sh` in Git Bash
    without elevation.
-5. After a successful install, run `asimov --version` in Git Bash. Then
-   install the agent skill as described under "Agent skills".
+5. After a successful install or upgrade, run `asimov --version` in Git Bash.
+   Then install or refresh the agent skill as described under "Agent skills",
+   replacing any existing copy.
 
 Do not enable Developer Mode automatically. Do not treat an unanswered
 permission request as a refusal. If the elevated installer fails, report

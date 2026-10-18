@@ -33,6 +33,8 @@ Install https://github.com/asimov-systems/asimov-alpha
 
 > [!TIP]
 > To upgrade an existing ASIMOV installation, simply run this command again.
+> Your agent must also replace its installed ASIMOV skill with the copy from
+> the new bundle--it should do this automatically.
 
 <details>
 <summary>Manual Installation</summary>
