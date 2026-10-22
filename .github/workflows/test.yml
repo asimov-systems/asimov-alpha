@@ -8,6 +8,22 @@ on:
   schedule:
     - cron: '0 12 * * 1' # Mondays at 12:00 UTC
   workflow_dispatch:
+    inputs:
+      cli:
+        description: "asimov-cli release tag, or latest"
+        required: true
+        default: latest
+        type: string
+      modules:
+        description: "Comma-separated module release tags (name/version or name/latest)"
+        required: true
+        default: linkedin/latest,attio/latest
+        type: string
+      skills:
+        description: "skills tag/commit, or latest for default-branch HEAD"
+        required: true
+        default: latest
+        type: string
 
 env:
   MODELS: ${{ vars.OPENROUTER_MODELS || '["z-ai/glm-5.3-flash","deepseek/deepseek-v4-flash-0731","openai/gpt-5.6-luna"]' }}
@@ -50,11 +66,14 @@ jobs:
         working-directory: tools
         env:
           SANDBOX_RELEASES_TOKEN: ${{ secrets.SANDBOX_RELEASES_TOKEN }}
+          CLI_REF: ${{ inputs.cli || 'latest' }}
+          MODULE_REFS: ${{ inputs.modules || 'linkedin/latest,attio/latest' }}
+          SKILLS_REF: ${{ inputs.skills || 'latest' }}
         run: |
           bun run zip \
-            --cli "latest" \
-            --modules "social/latest" \
-            --skills "latest" \
+            --cli "$CLI_REF" \
+            --modules "$MODULE_REFS" \
+            --skills "$SKILLS_REF" \
             --target linux-x86-gnu
       - uses: actions/upload-artifact@v4
         with:
