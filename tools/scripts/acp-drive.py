@@ -12,7 +12,7 @@ per line). Every session/request_permission is answered with the first
 Exit code 1 when the turn does not end with stop reason end_turn, or when
 the agent called a tool that asks the user a question. With --expect, the
 agent's text must contain TEXT (case-insensitive). With --expect-tool, at
-least one tool call (title plus rawInput) must match REGEX. With
+least one tool call (title, rawInput, or tool-start terminal command) must match REGEX. With
 --expect-model (default: the ACP_EXPECT_MODEL environment variable), the model
 the agent reports at session start must contain TEXT; some agents silently
 fall back to another model when the configured provider has no credentials.
@@ -34,13 +34,32 @@ def log(msg):
     print(f"[acp-drive] {msg}", file=sys.stderr, flush=True)
 
 
+def terminal_commands(update):
+    """Read Hermes terminal commands from start events, never from tool results."""
+    if (update.get("sessionUpdate") != "tool_call"
+            or update.get("kind") != "execute"
+            or update.get("status") in ("completed", "failed")):
+        return []
+    commands = []
+    for item in update.get("content") or []:
+        if not isinstance(item, dict) or item.get("type") != "content":
+            continue
+        content = item.get("content")
+        if not isinstance(content, dict) or content.get("type") != "text":
+            continue
+        text = content.get("text")
+        if isinstance(text, str) and text.startswith("$ "):
+            commands.append(text[2:])
+    return commands
+
+
 class Client:
     def __init__(self, cmd, cwd):
         self.proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, cwd=cwd, text=True, bufsize=1)
         self.next_id = 0
         self.text = []
         self.permissions = 0
-        self.tools = {}  # toolCallId -> "title rawInput..."
+        self.tools = {}  # toolCallId -> title, input, and tool-start commands
         self.question_tools = []
 
     def send(self, obj):
@@ -106,6 +125,12 @@ class Client:
                 title = update.get("title", "")
                 log(f"tool: {title} {raw[:200]}")
                 self.tools[call_id] = title + " " + raw
+                # Hermes abbreviates compound commands in the title and puts the
+                # full command in content instead of rawInput. Completion content
+                # contains output, so only inspect the initial command event.
+                for command in terminal_commands(update):
+                    log(f"tool command: {command}")
+                    self.tools[call_id] += "\n" + command
                 if QUESTION_TOOL.search(title):
                     self.question_tools.append(title)
             elif call_id in self.tools:
@@ -138,7 +163,7 @@ def main():
     ap.add_argument("--prompt", required=True)
     ap.add_argument("--timeout", type=int, default=900)
     ap.add_argument("--expect", help="text the agent's reply must contain (case-insensitive)")
-    ap.add_argument("--expect-tool", help="regex at least one tool call must match (title plus rawInput)")
+    ap.add_argument("--expect-tool", help="regex matching a tool title, rawInput, or tool-start terminal command")
     ap.add_argument("--expect-model", default=os.environ.get("ACP_EXPECT_MODEL"),
                     help="text the session's reported model must contain (default: $ACP_EXPECT_MODEL)")
     ap.add_argument("cmd", nargs=argparse.REMAINDER)
