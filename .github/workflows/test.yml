@@ -5,11 +5,8 @@ name: test
 # question to the user. See scripts/acp-drive.py and scripts/assert-asimov.py.
 
 on:
-  push:
-    branches: [master]
-    paths:
-      - tools/**
-      - .github/workflows/test.yml
+  schedule:
+    - cron: '0 12 * * 1' # Mondays at 12:00 UTC
   workflow_dispatch:
 
 env:
