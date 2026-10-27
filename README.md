@@ -7,8 +7,8 @@ Install once, then use with any agent, any gateway, any provider, any model.
 
 - An exclusive distribution of [ASIMOV Platform] specialized for social media
   intelligence.
-- Plugs into your personal agent as a sidecar: Hermes, OpenClaw, Claude Code,
-  ChatGPT Dots, etc.
+- Plugs into your personal agent as a sidecar: Grok Bot, ChatGPT Dots,
+  Claude Code, Hermes, OpenClaw, etc.
 - Makes social graphs transparent, disregarding typical barriers such as
   restrictive, expensive APIs.
 - Currently supports **LinkedIn**, **X** (fka Twitter), **Instagram**, **Luma**,
@@ -53,9 +53,13 @@ Install `asimov-alpha-0.7.0-macos-arm.zip` from my Downloads folder
 ```
 </details>
 
+### Installation with Grok Bot
+
+<img alt="Screenshot of installation with Grok Bot" src="https://github.com/asimov-systems/asimov-alpha/blob/master/etc/screenshots/install-grokbot.png?raw=true"/>
+
 ### Installation with Hermes Desktop
 
-<img alt="Screenshot of installation with Hermes Desktop" src="https://github.com/asimov-systems/asimov-alpha/blob/master/.config/readmer/screenshot-install.png?raw=true"/>
+<img alt="Screenshot of installation with Hermes Desktop" src="https://github.com/asimov-systems/asimov-alpha/blob/master/etc/screenshots/install-hermes.png?raw=true"/>
 
 ## 💡 Usage
 
