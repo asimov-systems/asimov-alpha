@@ -311,11 +311,11 @@ async function main(): Promise<void> {
   );
 
   // Appended to the upstream SKILL.md: module notes when the module ships,
-  // then the uninstall notes in every bundle.
+  // then the relay and uninstall notes in every bundle.
   const snippets = [];
   if (options.modules.has("linkedin")) snippets.push("bundle/linkedin-skill.md");
   if (options.modules.has("attio")) snippets.push("bundle/attio-skill.md");
-  snippets.push("bundle/uninstall-prompt.md");
+  snippets.push("bundle/relay.md", "bundle/uninstall-prompt.md");
 
   let text = decoder.decode(skill.skill.get("SKILL.md")!).trimEnd();
   for (const snippet of snippets) {
