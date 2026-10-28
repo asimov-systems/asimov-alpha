@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.8.0 - 2026-10-27
+Looking up followers, following, and mutuals through ASIMOV is now at least 10×
+faster. Also restored instructions for your agent to know which X, Instagram,
+GitHub, LinkedIn, and Luma links ASIMOV can look up for you.
+
+### Added
+- Document the relay and its supported URLs in the bundled skill
+### Changed
+- Relay: List followers, followees, and mutuals at least 10× faster
+- Upgrade to asimov-cli 25.9.0 and asimov-sdk 25.9.0
+### Fixed
+- Update TLS certificate verification for CA security fixes
+- Relay: Fetch and list X list members correctly
+- Retry relay requests automatically when rate-limited
+- Detect more system proxy settings for relay access
+
 ## 0.7.0 - 2026-10-18
 ### Added
 - Support fetching multiple URLs in remote requests to minimize roundtrips
