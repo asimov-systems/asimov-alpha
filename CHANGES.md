@@ -5,21 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.8.0 - 2026-10-27
+## 0.8.0 - 2026-10-28
 Looking up followers, following, and mutuals through ASIMOV is now at least 10×
-faster. Also restored instructions for your agent to know which X, Instagram,
-GitHub, LinkedIn, and Luma links ASIMOV can look up for you.
-
-### Added
-- Document the relay and its supported URLs in the bundled skill
+faster. Also improved instructions for your agent to know which specific X,
+Instagram, GitHub, LinkedIn, and Luma links ASIMOV can presently look up for
+you.
 ### Changed
-- Relay: List followers, followees, and mutuals at least 10× faster
-- Upgrade to asimov-cli 25.9.0 and asimov-sdk 25.9.0
+- Listing followers, followees, and mutuals is at least 10× faster
+- Improve the ASIMOV skill's instructions for better Grok Bot usability
+- Prepare to discontinue pre-0.8.0 ASIMOV Alpha clients
+- Upgrade to ASIMOV CLI 25.9.0 and ASIMOV SDK 25.9.0
 ### Fixed
 - Update TLS certificate verification for CA security fixes
-- Relay: Fetch and list X list members correctly
-- Retry relay requests automatically when rate-limited
-- Detect more system proxy settings for relay access
+- Fetch and list X list members correctly
+- Autodetect more system proxy settings on corporate networks
+- Retry actions automatically when temporarily rate-limited
 
 ## 0.7.0 - 2026-10-18
 ### Added
